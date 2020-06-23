@@ -1,0 +1,94 @@
+{% set version = "a48ba0f" %}
+package:
+    name: stereo-pipeline
+    version: {{ version }}
+
+source:
+  git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
+  git_tag: {{ version }}
+
+build:
+    number: 0
+
+requirements:
+    build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cmake
+    host:
+        - gdal                      2.0.2
+        - ilmbase
+        - openexr
+        - eigen
+        - pbzip2
+        - gflags
+        - glog
+        - ceres-solver
+        - parallel
+        - flann                     1.9.*
+        - opencv                    3.*
+        - boost                     1.68
+        - liblapack
+        - blas
+        - geotiff                   1.4.2
+        - proj4                     4.9.3
+        - geos                      3.7.3
+        - hdf5                      1.8.*
+        - imagemagick               6.8.6_10
+        - laszip                    2.1.0
+        - liblas                    1.8.1
+        - libnabo                   2df86e0
+        - libpointmatcher           bcf4b04
+        - geoid                     1.0
+        - htdp                      1.0
+        - fgr                       bfcb9f9
+        - theia                     37f8270
+        - isis-headers              4.1.0
+        - usgscsm                   a53f9cf
+        - visionworkbench           115208e
+    run:
+        - gdal                      2.0.2
+        - ilmbase
+        - openexr
+        - eigen
+        - pbzip2
+        - gflags
+        - glog
+        - ceres-solver
+        - parallel
+        - flann                     1.9.*
+        - opencv                    3.*
+        - boost                     1.68
+        - liblapack
+        - blas
+        - geotiff                   1.4.2
+        - proj4                     4.9.3
+        - geos                      3.7.3
+        - hdf5                      1.8.*
+        - imagemagick               6.8.6_10
+        - laszip                    2.1.0
+        - liblas                    1.8.1
+        - libnabo                   2df86e0
+        - libpointmatcher           bcf4b04
+        - geoid                     1.0
+        - htdp                      1.0
+        - fgr                       bfcb9f9
+        - theia                     37f8270
+        - isis-headers              4.1.0
+        - usgscsm                   a53f9cf
+        - visionworkbench           115208e
+
+test:
+    files:
+        imports:
+        commands:
+        comment: "Add here something like stereo_pprc --version"
+
+about:
+    home: https://github.com/NeoGeographyToolkit/StereoPipeline
+    license: Apache II
+    summary: 
+
+extra:
+  recipe-maintainers:
+    - olegalexandrov
