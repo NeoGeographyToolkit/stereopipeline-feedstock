@@ -1,4 +1,4 @@
-{% set version = "a48ba0f" %}
+{% set version = "f76c499" %}
 package:
     name: stereo-pipeline
     version: {{ version }}
@@ -12,9 +12,11 @@ build:
 
 requirements:
     build:
-        - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
+        - {{ compiler('c') }}    # [linux]
+        - {{ compiler('cxx') }}  # [linux]
         - cmake
+        - llvm-openmp  # [osx]
+#       - libgomp      # [linux]
     host:
         - gdal                      2.0.2
         - ilmbase
@@ -23,10 +25,12 @@ requirements:
         - pbzip2
         - gflags
         - glog
-        - ceres-solver
+        - suitesparse               5.7.2
+        - ceres-solver              1.14.0
         - parallel
-        - flann                     1.9.*
-        - opencv                    3.*
+        - flann                     1.9.1
+        - opencv                    3.2.0
+        - openmp # [linux]
         - boost                     1.68
         - liblapack
         - blas
@@ -43,9 +47,11 @@ requirements:
         - htdp                      1.0
         - fgr                       bfcb9f9
         - theia                     37f8270
+        - isis                      4.1.0
         - isis-headers              4.1.0
         - usgscsm                   a53f9cf
-        - visionworkbench           115208e
+        - csm 
+        - visionworkbench           02f1f9f
     run:
         - gdal                      2.0.2
         - ilmbase
@@ -54,10 +60,12 @@ requirements:
         - pbzip2
         - gflags
         - glog
-        - ceres-solver
+        - suitesparse               5.7.2
+        - ceres-solver              1.14.0
         - parallel
-        - flann                     1.9.*
-        - opencv                    3.*
+        - flann                     1.9.1
+        - opencv                    3.2.0
+        - openmp # [linux]
         - boost                     1.68
         - liblapack
         - blas
@@ -74,9 +82,11 @@ requirements:
         - htdp                      1.0
         - fgr                       bfcb9f9
         - theia                     37f8270
+        - isis                      4.1.0
         - isis-headers              4.1.0
         - usgscsm                   a53f9cf
-        - visionworkbench           115208e
+        - csm 
+        - visionworkbench           02f1f9f
 
 test:
     files:
@@ -86,7 +96,7 @@ test:
 
 about:
     home: https://github.com/NeoGeographyToolkit/StereoPipeline
-    license: Apache II
+    license: APACHE
     summary: 
 
 extra:
