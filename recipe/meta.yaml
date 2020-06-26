@@ -46,7 +46,7 @@ requirements:
         - geoid                     1.0
         - htdp                      1.0
         - fgr                       bfcb9f9
-        - theia                     37f8270
+        - theia                     f5d93f5
         - isis                      4.1.0
         - isis-headers              4.1.0
         - usgscsm                   a53f9cf
@@ -81,7 +81,7 @@ requirements:
         - geoid                     1.0
         - htdp                      1.0
         - fgr                       bfcb9f9
-        - theia                     37f8270
+        - theia                     f5d93f5
         - isis                      4.1.0
         - isis-headers              4.1.0
         - usgscsm                   a53f9cf
@@ -97,6 +97,7 @@ test:
 about:
     home: https://github.com/NeoGeographyToolkit/StereoPipeline
     license: APACHE
+    summary: A suite of automated geodesy & stereogrammetry tools
     summary: 
 
 extra:
