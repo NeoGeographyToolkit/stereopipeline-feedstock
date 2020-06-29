@@ -1,17 +1,19 @@
-{% set version = "f76c499" %}
+# We will lock ASP and VisionWorkbench to the same version
+{% set asp_version = "2.7.0" %}
 package:
     name: stereo-pipeline
-    version: {{ version }}
+    version: {{ asp_version }}
 
 source:
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
-  git_tag: {{ version }}
+  git_tag: {{ asp_version }}
 
 build:
     number: 0
 
 requirements:
     build:
+# Use the local compiler for OSX. See build.sh for details.
         - {{ compiler('c') }}    # [linux]
         - {{ compiler('cxx') }}  # [linux]
         - cmake
@@ -51,7 +53,7 @@ requirements:
         - isis-headers              4.1.0
         - usgscsm                   a53f9cf
         - csm 
-        - visionworkbench           02f1f9f
+        - visionworkbench           {{ vw_version }}
     run:
         - gdal                      2.0.2
         - ilmbase
@@ -86,7 +88,7 @@ requirements:
         - isis-headers              4.1.0
         - usgscsm                   a53f9cf
         - csm 
-        - visionworkbench           02f1f9f
+        - visionworkbench           {{ vw_version }}
 
 test:
     files:
