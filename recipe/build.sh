@@ -19,7 +19,7 @@ if [ "$(uname)" = "Darwin" ]; then
     cmake ..                                        \
         -DCMAKE_PREFIX_PATH=${PREFIX}               \
         -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX}       \
-        -DISIS_DEPS_DIR=${PREFIX}                   \
+        -DASP_DEPS_DIR=${PREFIX}                    \
         -DBINARYBUILDER_INSTALL_DIR=${PREFIX}       \
         -DCMAKE_VERBOSE_MAKEFILE=ON                 \
         -DCMAKE_C_COMPILER=/usr/bin/clang           \
@@ -28,7 +28,7 @@ else
     cmake ..                                        \
         -DCMAKE_PREFIX_PATH=${PREFIX}               \
         -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX}       \
-        -DISIS_DEPS_DIR=${PREFIX}                   \
+        -DASP_DEPS_DIR=${PREFIX}                    \
         -DBINARYBUILDER_INSTALL_DIR=${PREFIX}       \
         -DCMAKE_VERBOSE_MAKEFILE=ON
 fi

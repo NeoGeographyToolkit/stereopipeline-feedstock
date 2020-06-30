@@ -1,5 +1,7 @@
-# We will lock ASP and VisionWorkbench to the same version
+# The ASP and VW versions can either be tags or git commit hashes.
+# The VW and ASP meta.yaml files must use the same value for vw_version.
 {% set asp_version = "2.7.0" %}
+{% set vw_version = "2.7.0" %}
 package:
     name: stereo-pipeline
     version: {{ asp_version }}
