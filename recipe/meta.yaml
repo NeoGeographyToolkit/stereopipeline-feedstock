@@ -49,7 +49,7 @@ requirements:
         - libpointmatcher           bcf4b04
         - geoid                     1.0
         - htdp                      1.0
-        - fgr                       bfcb9f9
+        - fgr                       e78ce15
         - theia                     f5d93f5
         - isis                      4.1.0
         - isis-headers              4.1.0
@@ -84,7 +84,7 @@ requirements:
         - libpointmatcher           bcf4b04
         - geoid                     1.0
         - htdp                      1.0
-        - fgr                       bfcb9f9
+        - fgr                       e78ce15
         - theia                     f5d93f5
         - isis                      4.1.0
         - isis-headers              4.1.0
