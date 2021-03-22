@@ -54,7 +54,7 @@ requirements:
         - htdp                      1.0
         - fgr                       isis4.4.0
         - theia                     isis4.4.0
-        - isis                      4.4.0
+        - isis                      4.4.0 # to catch dependency problems
         - usgscsm                   1.5.1
         - csm                       3.0.3.3
         - visionworkbench           isis4.4.0
@@ -88,7 +88,7 @@ requirements:
         - htdp                      1.0
         - fgr                       isis4.4.0
         - theia                     isis4.4.0
-        - isis                      4.4.0
+        - isis                      4.4.0 # to catch dependency problems
         - usgscsm                   1.5.1
         - csm                       3.0.3.3
         - visionworkbench           isis4.4.0
