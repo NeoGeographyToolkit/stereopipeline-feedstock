@@ -2,7 +2,7 @@
 # ISIS. 
 # Specify the correct tag in git_tag, for example, 2.7.0, or a commit hash.
 
-{% set version = "isis4.4.0" %} # synched up to isis dependencies for this version
+{% set version = "isis5.0.1" %} # synched up to isis dependencies for this version
 
 package:
     name: stereo-pipeline
@@ -25,73 +25,82 @@ requirements:
 #       - libgomp                # [linux]
 
     host:
-        - gdal                      isis4.4.0
-        - ilmbase
-        - openexr
+        - blas                      1.1
+        - boost                     1.68
+# Must use the ceres conda package which depends on Eigen 3.3.7
+        - ceres-solver=1.14.0=h0948850_10 # [linux]
+        - ceres-solver=1.14.0=hb9d6bad_10 # [osx]
+        - chrpath                   # [linux]
         - eigen                     3.3.7
-        - pbzip2
+        - fgr                       isis5.0.1
+        - flann                     1.9.1
+        - gdal                      isis5.0.1
+        - geoid                     1.0
+        - geos                      3.7.3
+        - geotiff                   1.4.2
         - gflags
         - glog
-        - suitesparse               5.7.2
-        - ceres-solver              1.14.0
-        - parallel
-        - flann                     1.9.1
-        - opencv                    3.2.0
-        - openmp                    # [linux]
-        - boost                     1.68
-        - liblapack                 3.8.0
-        - blas                      1.1
-        - geotiff                   1.4.2
-        - proj4                     4.9.3
-        - geos                      3.7.3
         - hdf5                      1.8.18
-        - imagemagick               isis4.4.0
-        - laszip                    2.1.0
-        - liblas                    isis4.4.0
-        - libnabo                   isis4.4.0
-        - libpointmatcher           isis4.4.0
-        - geoid                     1.0
         - htdp                      1.0
-        - fgr                       isis4.4.0
-        - theia                     isis4.4.0
-        - isis                      4.4.0 # to catch dependency problems
-        - usgscsm                   1.5.1
-        - csm                       3.0.3.3
-        - visionworkbench           isis4.4.0
+        - ilmbase
+        - imagemagick               isis5.0.1
+        - isis                      5.0.1
+        - laszip                    2.1.0
+        - libelas                   isis5.0.1
+        - liblapack                 3.8.0
+        - liblas                    isis5.0.1
+        - libnabo                   isis5.0.1
+        - libpointmatcher           isis5.0.1
+        - libglvnd-cos7-x86_64      # [linux]
+        - opencv                    3.2.0
+        - openexr
+        - openmp                    # [linux]
+        - parallel
+        - pbzip2
+        - proj4                     4.9.3
+        - s2p-subset                isis5.0.1
+        - suitesparse               5.7.2
+        - theia                     isis5.0.1
+        - usgscsm                   1.5.2
+        - visionworkbench           isis5.0.1
     run:
-        - gdal                      isis4.4.0
-        - ilmbase
-        - openexr
+        - blas                      1.1
+        - boost                     1.68
+# Must use the ceres conda package which depends on Eigen 3.3.7
+        - ceres-solver=1.14.0=h0948850_10 # [linux]
+        - ceres-solver=1.14.0=hb9d6bad_10 # [osx]
+        - chrpath                   # [linux]
         - eigen                     3.3.7
-        - pbzip2
+        - fgr                       isis5.0.1
+        - flann                     1.9.1
+        - gdal                      isis5.0.1
+        - geoid                     1.0
+        - geos                      3.7.3
+        - geotiff                   1.4.2
         - gflags
         - glog
-        - suitesparse               5.7.2
-        - ceres-solver              1.14.0
-        - parallel
-        - flann                     1.9.1
-        - opencv                    3.2.0
-        - openmp                    # [linux]
-        - boost                     1.68
-        - liblapack                 3.8.0
-        - blas                      1.1
-        - geotiff                   1.4.2
-        - proj4                     4.9.3
-        - geos                      3.7.3
         - hdf5                      1.8.18
-        - imagemagick               isis4.4.0
-        - laszip                    2.1.0
-        - liblas                    isis4.4.0
-        - libnabo                   isis4.4.0
-        - libpointmatcher           isis4.4.0
-        - geoid                     1.0
         - htdp                      1.0
-        - fgr                       isis4.4.0
-        - theia                     isis4.4.0
-        - isis                      4.4.0 # to catch dependency problems
-        - usgscsm                   1.5.1
-        - csm                       3.0.3.3
-        - visionworkbench           isis4.4.0
+        - ilmbase
+        - imagemagick               isis5.0.1
+        - isis                      5.0.1
+        - laszip                    2.1.0
+        - libelas                   isis5.0.1
+        - liblapack                 3.8.0
+        - liblas                    isis5.0.1
+        - libnabo                   isis5.0.1
+        - libpointmatcher           isis5.0.1
+        - opencv                    3.2.0
+        - openexr
+        - openmp                    # [linux]
+        - parallel
+        - pbzip2
+        - proj4                     4.9.3
+        - s2p-subset                isis5.0.1
+        - suitesparse               5.7.2
+        - theia                     isis5.0.1
+        - usgscsm                   1.5.2
+        - visionworkbench           isis5.0.1
 
 test:
     files:
@@ -101,7 +110,7 @@ test:
 
 about:
     home: https://github.com/NeoGeographyToolkit/StereoPipeline
-    license: APACHE
+    license: APACHE II
     summary: A suite of automated geodesy & stereogrammetry tools
     summary: 
 
