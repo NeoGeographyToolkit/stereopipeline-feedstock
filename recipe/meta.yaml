@@ -10,7 +10,7 @@ package:
 
 source:
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
-  git_tag: fc1ad06 # ensure the correct tag here
+  git_tag: 1a18f02 # ensure the correct tag here
 
 build:
     number: 0
@@ -34,10 +34,10 @@ requirements:
         - eigen                     3.3.7
         - fgr                       isis5.0.1
         - flann                     1.9.1
-        - gdal                      isis5.0.1
+        - libgdal                   2.4.1_isis5.0.1
         - geoid                     1.0
-        - geos                      3.7.3
-        - geotiff                   1.4.3
+#       - geos                      3.7.3
+#       - geotiff                   1.4.3
         - gflags                    2.2.2
         - glog                      0.4.0
         - hdf5                      1.8.18
@@ -63,22 +63,25 @@ requirements:
         - s2p-subset                isis5.0.1
         - suitesparse               5.10.1
         - theia                     isis5.0.1
-        - usgscsm                   1.5.2
+# Install the version of USGSCSM which has bugfixes for LRO NAC
+        - usgscsm=1.5.2=ha5a8b8e_0  # [linux]
+        - usgscsm=1.5.2=h2bc3f7f_0  # [osx]
         - visionworkbench           isis5.0.1
+
     run:
         - blas                      1.1
         - boost                     1.68.0
 # Must use the ceres conda package which depends on Eigen 3.3.7
         - ceres-solver=1.14.0=h0948850_10 # [linux]
         - ceres-solver=1.14.0=hb9d6bad_10 # [osx]
-        - chrpath                   # [linux]
+        - chrpath                         # [linux]
         - eigen                     3.3.7
         - fgr                       isis5.0.1
         - flann                     1.9.1
-        - gdal                      isis5.0.1
+        - libgdal                   2.4.1_isis5.0.1
         - geoid                     1.0
-        - geos                      3.7.3
-        - geotiff                   1.4.3
+#        - geos                      3.7.3
+#        - geotiff                   1.4.3
         - gflags                    2.2.2
         - glog                      0.4.0
         - hdf5                      1.8.18
@@ -93,17 +96,20 @@ requirements:
         - liblas                    isis5.0.1
         - libnabo                   isis5.0.1
         - libpointmatcher           isis5.0.1
+        - libglvnd-cos7-x86_64      # [linux]
         - opencv                    3.2.0
         - openexr
-        - openmp                    # [linux]
         - openssl                   1.0.2u
+        - openmp                    # [linux]
         - parallel
         - pbzip2
         - proj4                     5.2.0
         - s2p-subset                isis5.0.1
         - suitesparse               5.10.1
         - theia                     isis5.0.1
-        - usgscsm                   1.5.2
+# Install the version of USGSCSM which has bugfixes for LRO NAC
+        - usgscsm=1.5.2=ha5a8b8e_0  # [linux]
+        - usgscsm=1.5.2=h2bc3f7f_0 # [osx]
         - visionworkbench           isis5.0.1
 
 test:

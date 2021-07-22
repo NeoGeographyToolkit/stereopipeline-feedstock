@@ -20,7 +20,6 @@ if [ "$(uname)" = "Darwin" ]; then
         -DCMAKE_PREFIX_PATH=${PREFIX}               \
         -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX}       \
         -DASP_DEPS_DIR=${PREFIX}                    \
-        -DBINARYBUILDER_INSTALL_DIR=${PREFIX}       \
         -DCMAKE_VERBOSE_MAKEFILE=ON                 \
         -DCMAKE_C_COMPILER=/usr/bin/clang           \
         -DCMAKE_CXX_COMPILER=/usr/bin/clang++
@@ -29,9 +28,11 @@ else
         -DCMAKE_PREFIX_PATH=${PREFIX}               \
         -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX}       \
         -DASP_DEPS_DIR=${PREFIX}                    \
-        -DBINARYBUILDER_INSTALL_DIR=${PREFIX}       \
         -DCMAKE_VERBOSE_MAKEFILE=ON
 fi
+
+# This is likely not needed
+#        -DCMAKE_EXE_LINKER_FLAGS="-L${PREFIX}/lib -Wl,-rpath-link,${PREFIX}/lib" \
 
 make -j${CPU_COUNT}
 make install
