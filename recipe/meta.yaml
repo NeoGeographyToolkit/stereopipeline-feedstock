@@ -64,8 +64,8 @@ requirements:
         - suitesparse               5.10.1
         - theia                     isis5.0.1
 # Install the version of USGSCSM which has bugfixes for LRO NAC
-        - usgscsm=1.5.2=ha5a8b8e_0  # [linux]
-        - usgscsm=1.5.2=h2bc3f7f_0  # [osx]
+        - usgscsm=1.5.2=h2bc3f7f_0  # [linux]
+        - usgscsm=1.5.2=ha5a8b8e_0  # [osx]
         - visionworkbench           isis5.0.1
 
     run:
@@ -108,8 +108,8 @@ requirements:
         - suitesparse               5.10.1
         - theia                     isis5.0.1
 # Install the version of USGSCSM which has bugfixes for LRO NAC
-        - usgscsm=1.5.2=ha5a8b8e_0  # [linux]
-        - usgscsm=1.5.2=h2bc3f7f_0 # [osx]
+        - usgscsm=1.5.2=h2bc3f7f_0  # [linux]
+        - usgscsm=1.5.2=ha5a8b8e_0  # [osx]
         - visionworkbench           isis5.0.1
 
 test:
