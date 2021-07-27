@@ -2,7 +2,8 @@
 # ISIS. 
 # Specify the correct tag in git_tag, for example, 2.7.0, or a commit hash.
 
-{% set version = "isis5.0.1" %} # synched up to isis dependencies for this version
+#{% set version = "isis5.0.1" %} # synched up to isis dependencies for this version
+{% set version = "3.0.0" %} # synched up to isis dependencies for this version
 
 package:
     name: stereo-pipeline
@@ -10,7 +11,8 @@ package:
 
 source:
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
-  git_tag: 1a18f02 # ensure the correct tag here
+  #git_tag: ec86553 # ensure the correct tag here
+  git_tag: 3.0.0 # ensure the correct tag here
 
 build:
     number: 0
@@ -66,7 +68,7 @@ requirements:
 # Install the version of USGSCSM which has bugfixes for LRO NAC
         - usgscsm=1.5.2=h2bc3f7f_0  # [linux]
         - usgscsm=1.5.2=ha5a8b8e_0  # [osx]
-        - visionworkbench           isis5.0.1
+        - visionworkbench           3.0.0
 
     run:
         - blas                      1.1
@@ -110,7 +112,7 @@ requirements:
 # Install the version of USGSCSM which has bugfixes for LRO NAC
         - usgscsm=1.5.2=h2bc3f7f_0  # [linux]
         - usgscsm=1.5.2=ha5a8b8e_0  # [osx]
-        - visionworkbench           isis5.0.1
+        - visionworkbench           3.0.0
 
 test:
     files:
