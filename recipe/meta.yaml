@@ -1,9 +1,9 @@
 # Ensure that the VW and ASP meta.yaml files are in sync with each other and with 
 # ISIS. 
-# Specify the correct tag in git_tag, for example, 2.7.0, or a commit hash.
+# Specify the correct tag in git_tag, for example, 3.1.0, or a commit hash.
 
-#{% set version = "isis5.0.1" %} # synched up to isis dependencies for this version
-{% set version = "3.0.0" %} # synched up to isis dependencies for this version
+#{% set version = "isis6" %} # synched up to isis dependencies for this version
+{% set version = "3.1.0" %}
 
 package:
     name: stereo-pipeline
@@ -12,7 +12,7 @@ package:
 source:
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
   #git_tag: ec86553 # ensure the correct tag here
-  git_tag: 3.0.0 # ensure the correct tag here
+  git_tag: 3.1.0 # ensure the correct tag here
 
 build:
     number: 0
@@ -20,99 +20,57 @@ build:
 requirements:
     build:
 # Use the local compiler for OSX. See build.sh for details.
-        - {{ compiler('c') }}    # [linux]
-        - {{ compiler('cxx') }}  # [linux]
-        - cmake                     3.16.0
-        - llvm-openmp            # [osx]
-#       - libgomp                # [linux]
+        - {{ compiler('c') }}       # [linux]
+        - {{ compiler('cxx') }}     # [linux]
+        - cmake 3.15
+        - llvm-openmp               # [osx]
+#       - libgomp                   # [linux]
 
     host:
-        - blas                      1.1
-        - boost                     1.68.0
-# Must use the ceres conda package which depends on Eigen 3.3.7
-        - ceres-solver=1.14.0=h0948850_10 # [linux]
-        - ceres-solver=1.14.0=hb9d6bad_10 # [osx]
-        - chrpath                         # [linux]
-        - eigen                     3.3.7
-        - fgr                       isis5.0.1
-        - flann                     1.9.1
-        - libgdal                   2.4.1_isis5.0.1
-        - geoid                     1.0
-#       - geos                      3.7.3
-#       - geotiff                   1.4.3
-        - gflags                    2.2.2
-        - glog                      0.4.0
-        - hdf5                      1.8.18
-        - htdp                      1.0
-        - ilmbase
-        - imagemagick               isis5.0.1
-        - isis                      5.0.1
-        - krb5                      1.16.3
-        - laszip                    2.1.0
-        - libelas                   isis5.0.1
-        - liblapack                 3.8.0
-        - liblas                    isis5.0.1
-        - libnabo                   isis5.0.1
-        - libpointmatcher           isis5.0.1
-        - libglvnd-cos7-x86_64      # [linux]
-        - opencv                    3.2.0
-        - openexr
-        - openssl                   1.0.2u
-        - openmp                    # [linux]
+        - chrpath                   # [linux]
         - parallel
         - pbzip2
-        - proj4                     5.2.0
-        - s2p-subset                isis5.0.1
-        - suitesparse               5.10.1
-        - theia                     isis5.0.1
-# Install the version of USGSCSM which has bugfixes for LRO NAC
-        - usgscsm=1.5.2=h2bc3f7f_0  # [linux]
-        - usgscsm=1.5.2=ha5a8b8e_0  # [osx]
-        - visionworkbench           3.0.0
+        - geoid                     1.0
+        - htdp                      1.0
+        - isis                      6
+        - krb5                      1.16.3
+        - openmp                    # [linux]
+        - libglvnd-cos7-x86_64      # [linux]
+# Must use the ceres conda package which depends on Eigen 3.4.0
+        - ceres-solver=1.14.0=hf302a74_15 # [linux]
+        - ceres-solver=1.14.0=h636452b_15 # [osx]
+        - theia                     isis6
+        - fgr                       isis6
+        - liblas                    isis6
+        - libelas                   isis6
+        - libpointmatcher           isis6
+        - s2p-subset                isis6
+# Install a custom version of USGSCSM with newer code
+        - usgscsm                   1.6.0_asp3.1.0
+        - visionworkbench           3.1.0
 
     run:
-        - blas                      1.1
-        - boost                     1.68.0
-# Must use the ceres conda package which depends on Eigen 3.3.7
-        - ceres-solver=1.14.0=h0948850_10 # [linux]
-        - ceres-solver=1.14.0=hb9d6bad_10 # [osx]
-        - chrpath                         # [linux]
-        - eigen                     3.3.7
-        - fgr                       isis5.0.1
-        - flann                     1.9.1
-        - libgdal                   2.4.1_isis5.0.1
-        - geoid                     1.0
-#        - geos                      3.7.3
-#        - geotiff                   1.4.3
-        - gflags                    2.2.2
-        - glog                      0.4.0
-        - hdf5                      1.8.18
-        - htdp                      1.0
-        - ilmbase
-        - imagemagick               isis5.0.1
-        - isis                      5.0.1
-        - krb5                      1.16.3
-        - laszip                    2.1.0
-        - libelas                   isis5.0.1
-        - liblapack                 3.8.0
-        - liblas                    isis5.0.1
-        - libnabo                   isis5.0.1
-        - libpointmatcher           isis5.0.1
-        - libglvnd-cos7-x86_64      # [linux]
-        - opencv                    3.2.0
-        - openexr
-        - openssl                   1.0.2u
-        - openmp                    # [linux]
+        - chrpath                   # [linux]
         - parallel
         - pbzip2
-        - proj4                     5.2.0
-        - s2p-subset                isis5.0.1
-        - suitesparse               5.10.1
-        - theia                     isis5.0.1
-# Install the version of USGSCSM which has bugfixes for LRO NAC
-        - usgscsm=1.5.2=h2bc3f7f_0  # [linux]
-        - usgscsm=1.5.2=ha5a8b8e_0  # [osx]
-        - visionworkbench           3.0.0
+        - geoid                     1.0
+        - htdp                      1.0
+        - isis                      6
+        - krb5                      1.16.3
+        - openmp                    # [linux]
+        - libglvnd-cos7-x86_64      # [linux]
+# Must use the ceres conda package which depends on Eigen 3.4.0
+        - ceres-solver=1.14.0=hf302a74_15 # [linux]
+        - ceres-solver=1.14.0=h636452b_15 # [osx]
+        - theia                     isis6
+        - fgr                       isis6
+        - liblas                    isis6
+        - libelas                   isis6
+        - libpointmatcher           isis6
+        - s2p-subset                isis6
+# Install a custom version of USGSCSM with newer code
+        - usgscsm                   1.6.0_asp3.1.0
+        - visionworkbench           3.1.0
 
 test:
     files:
