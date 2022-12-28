@@ -72,8 +72,7 @@ test:
 about:
     home: https://github.com/NeoGeographyToolkit/StereoPipeline
     license: APACHE II
-    summary: A suite of automated geodesy & stereogrammetry tools
-    summary: 
+    summary: A suite of automated stereogrammetry tools
 
 extra:
   recipe-maintainers:
