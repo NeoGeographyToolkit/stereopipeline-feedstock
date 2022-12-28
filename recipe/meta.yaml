@@ -2,8 +2,7 @@
 # ISIS. 
 # Specify the correct tag in git_tag, for example, 3.1.0, or a commit hash.
 
-#{% set version = "isis6" %} # synched up to isis dependencies for this version
-{% set version = "3.1.0" %}
+{% set version = "3.2.0" %}
 
 package:
     name: stereo-pipeline
@@ -11,66 +10,58 @@ package:
 
 source:
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
-  #git_tag: ec86553 # ensure the correct tag here
-  git_tag: 3.1.0 # ensure the correct tag here
+  git_tag: 3.2.0 # use tag or hash
 
 build:
     number: 0
 
 requirements:
     build:
-# Use the local compiler for OSX. See build.sh for details.
-        - {{ compiler('c') }}       # [linux]
-        - {{ compiler('cxx') }}     # [linux]
-        - cmake 3.15
-        - llvm-openmp               # [osx]
-#       - libgomp                   # [linux]
+        - {{ compiler('c') }} 
+        - {{ compiler('cxx') }}
+        - cmake 3.15.5
 
     host:
         - chrpath                   # [linux]
+        - libglvnd-cos7-x86_64      # [linux]
+        - llvm-openmp               15.0.6
         - parallel
         - pbzip2
-        - geoid                     1.0
-        - htdp                      1.0
-        - isis                      6
-        - krb5                      1.16.3
-        - openmp                    # [linux]
-        - libglvnd-cos7-x86_64      # [linux]
-# Must use the ceres conda package which depends on Eigen 3.4.0
-        - ceres-solver=1.14.0=hf302a74_15 # [linux]
-        - ceres-solver=1.14.0=h636452b_15 # [osx]
-        - theia                     isis6
-        - fgr                       isis6
-        - liblas                    isis6
-        - libelas                   isis6
-        - libpointmatcher           isis6
-        - s2p-subset                isis6
-# Install a custom version of USGSCSM with newer code
-        - usgscsm                   1.6.0_asp3.1.0
-        - visionworkbench           3.1.0
+        - geoid                     1.0_isis7
+        - htdp                      1.0_isis7
+        - isis                      7.1.0
+        - krb5                      1.19.3
+        - fgr                       isis7
+        - liblas                    1.8.2_isis7
+        - libelas                   isis7
+        - libpointmatcher           isis7
+        - s2p-subset                isis7
+        - usgscsm                   1.6.0
+        - visionworkbench           3.2.0
+        - eigen                     3.4.0
+        - ceres-solver=1.14.0=hf302a74_15 # [linux] # must use Eigen 3.4.0
+        - ceres-solver=1.14.0=h636452b_15 # [osx]   # must use Eigen 3.4.0
 
     run:
         - chrpath                   # [linux]
+        - libglvnd-cos7-x86_64      # [linux]
+        - llvm-openmp               15.0.6
         - parallel
         - pbzip2
-        - geoid                     1.0
-        - htdp                      1.0
-        - isis                      6
-        - krb5                      1.16.3
-        - openmp                    # [linux]
-        - libglvnd-cos7-x86_64      # [linux]
-# Must use the ceres conda package which depends on Eigen 3.4.0
-        - ceres-solver=1.14.0=hf302a74_15 # [linux]
-        - ceres-solver=1.14.0=h636452b_15 # [osx]
-        - theia                     isis6
-        - fgr                       isis6
-        - liblas                    isis6
-        - libelas                   isis6
-        - libpointmatcher           isis6
-        - s2p-subset                isis6
-# Install a custom version of USGSCSM with newer code
-        - usgscsm                   1.6.0_asp3.1.0
-        - visionworkbench           3.1.0
+        - geoid                     1.0_isis7
+        - htdp                      1.0_isis7
+        - isis                      7.1.0
+        - krb5                      1.19.3
+        - fgr                       isis7
+        - liblas                    1.8.2_isis7
+        - libelas                   isis7
+        - libpointmatcher           isis7
+        - s2p-subset                isis7
+        - usgscsm                   1.6.0
+        - visionworkbench           3.2.0
+        - eigen                     3.4.0
+        - ceres-solver=1.14.0=hf302a74_15 # [linux] # must use Eigen 3.4.0
+        - ceres-solver=1.14.0=h636452b_15 # [osx]   # must use Eigen 3.4.0
 
 test:
     files:
