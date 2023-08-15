@@ -2,7 +2,7 @@
 # ISIS. 
 # Specify the correct tag in git_tag, for example, 3.1.0, or a commit hash.
 
-{% set version = "3.2.0" %}
+{% set version = "3.3.0" %}
 
 package:
     name: stereo-pipeline
@@ -10,7 +10,7 @@ package:
 
 source:
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
-  git_tag: 3.2.0 # use tag or hash
+  git_tag: {{ version }} # this tag must exist
 
 build:
     number: 0
@@ -24,20 +24,20 @@ requirements:
     host:
         - chrpath                   # [linux]
         - libglvnd-cos7-x86_64      # [linux]
-        - llvm-openmp               15.0.6
+        - llvm-openmp               16.0.6
         - parallel
         - pbzip2
         - geoid                     1.0_isis7
         - htdp                      1.0_isis7
-        - isis                      7.1.0
-        - krb5                      1.19.3
+        - isis                      8.0.0
+        - krb5                      1.20.1
         - fgr                       isis7
-        - liblas                    1.8.2_isis7
+        - liblas                    1.8.2_isis8
         - libelas                   isis7
         - libpointmatcher           isis7
         - s2p-subset                isis7
-        - usgscsm                   1.6.0
-        - visionworkbench           3.2.0
+        - usgscsm                   1.7.0
+        - visionworkbench           3.3.0
         - eigen                     3.4.0
         - ceres-solver=1.14.0=hf302a74_15 # [linux] # must use Eigen 3.4.0
         - ceres-solver=1.14.0=h636452b_15 # [osx]   # must use Eigen 3.4.0
@@ -45,20 +45,20 @@ requirements:
     run:
         - chrpath                   # [linux]
         - libglvnd-cos7-x86_64      # [linux]
-        - llvm-openmp               15.0.6
+        - llvm-openmp               16.0.6
         - parallel
         - pbzip2
         - geoid                     1.0_isis7
         - htdp                      1.0_isis7
-        - isis                      7.1.0
-        - krb5                      1.19.3
+        - isis                      8.0.0
+        - krb5                      1.20.1
         - fgr                       isis7
-        - liblas                    1.8.2_isis7
+        - liblas                    1.8.2_isis8
         - libelas                   isis7
         - libpointmatcher           isis7
         - s2p-subset                isis7
-        - usgscsm                   1.6.0
-        - visionworkbench           3.2.0
+        - usgscsm                   1.7.0
+        - visionworkbench           3.3.0
         - eigen                     3.4.0
         - ceres-solver=1.14.0=hf302a74_15 # [linux] # must use Eigen 3.4.0
         - ceres-solver=1.14.0=h636452b_15 # [osx]   # must use Eigen 3.4.0
