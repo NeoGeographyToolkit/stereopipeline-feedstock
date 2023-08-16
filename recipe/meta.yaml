@@ -1,12 +1,12 @@
 # Ensure that the VW and ASP meta.yaml files are in sync with each other and with 
 # ISIS. 
-# Specify the correct tag in git_tag, for example, 3.1.0, or a commit hash.
+# Specify the correct tag in git_tag, for example, 3.3.0, or a commit hash.
 
 {% set version = "3.3.0" %}
 
 package:
     name: stereo-pipeline
-    version: {{ version }}
+    version: {{ version }} # will compile this version
 
 source:
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
