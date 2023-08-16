@@ -38,6 +38,7 @@ requirements:
         - s2p-subset                isis7
         - usgscsm                   1.7.0
         - visionworkbench           3.3.0
+        - multiview                 isis8
         - eigen                     3.4.0
         - ceres-solver=1.14.0=hf302a74_15 # [linux] # must use Eigen 3.4.0
         - ceres-solver=1.14.0=h636452b_15 # [osx]   # must use Eigen 3.4.0
@@ -59,6 +60,7 @@ requirements:
         - s2p-subset                isis7
         - usgscsm                   1.7.0
         - visionworkbench           3.3.0
+        - multiview                 isis8
         - eigen                     3.4.0
         - ceres-solver=1.14.0=hf302a74_15 # [linux] # must use Eigen 3.4.0
         - ceres-solver=1.14.0=h636452b_15 # [osx]   # must use Eigen 3.4.0
