@@ -10,7 +10,8 @@ package:
 
 source:
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
-  git_tag: {{ version }} # this tag must exist
+# No git tag. Just built the latest. More convenient this way.  
+#  git_tag: {{ version }} # this tag must exist
 
 build:
     number: 0
