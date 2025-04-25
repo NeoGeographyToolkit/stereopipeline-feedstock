@@ -1,8 +1,6 @@
 # Ensure that the VW and ASP meta.yaml files are in sync with each other and with 
 # ISIS. 
-# Specify the correct tag in git_tag, for example, 3.3.0, or a commit hash.
-
-{% set version = "3.3.0" %}
+{% set version = "3.5.0" %}
 
 package:
     name: stereo-pipeline
@@ -18,53 +16,55 @@ build:
 
 requirements:
     build:
-        - {{ compiler('c') }} 
-        - {{ compiler('cxx') }}
-        - cmake 3.15.5
+        - cmake 3.27.9
 
     host:
+        # Having compilers as part of dependencies as in the local env helps
+        # sort out issues with conda-build later. Will sync up with ISIS.
+        - c-compiler                1.9.0
+        - compilers                 1.9.0
+        - cxx-compiler              1.9.0
+        - fortran-compiler          1.9.0
         - chrpath                   # [linux]
-        - libglvnd-cos7-x86_64      # [linux]
+        - libglvnd                  # [linux]
         - llvm-openmp               16.0.6
         - parallel
         - pbzip2
         - geoid                     1.0_isis7
-        - htdp                      1.0_isis7
-        - isis                      8.0.0
-        - krb5                      1.20.1
-        - fgr                       isis7
-        - liblas                    1.8.2_isis8
-        - libelas                   isis7
-        - libpointmatcher           isis7
-        - s2p-subset                isis7
-        - usgscsm                   1.7.0
-        - visionworkbench           3.3.0
-        - multiview                 isis8
+        - htdp                      1.0_asp3.5.0
+        - isis                      8.3.0
+        - krb5                      1.21.2
+        - fgr                       asp3.5.0
+        - pdal                      2.6.0_asp3.5.0
+        - libelas                   asp3.5.0
+        - libpointmatcher           asp3.5.0
+        - s2p-subset                asp3.5.0
+        - usgscsm                   2.0.2
+        - visionworkbench           asp3.5.0
+        - multiview                 asp_3.4.0_alpha
         - eigen                     3.4.0
-        - ceres-solver=1.14.0=hf302a74_15 # [linux] # must use Eigen 3.4.0
-        - ceres-solver=1.14.0=h636452b_15 # [osx]   # must use Eigen 3.4.0
+        - ceres-solver              2.2.0
 
     run:
         - chrpath                   # [linux]
-        - libglvnd-cos7-x86_64      # [linux]
+        - libglvnd                  # [linux]
         - llvm-openmp               16.0.6
         - parallel
         - pbzip2
         - geoid                     1.0_isis7
-        - htdp                      1.0_isis7
-        - isis                      8.0.0
-        - krb5                      1.20.1
-        - fgr                       isis7
-        - liblas                    1.8.2_isis8
-        - libelas                   isis7
-        - libpointmatcher           isis7
-        - s2p-subset                isis7
-        - usgscsm                   1.7.0
-        - visionworkbench           3.3.0
-        - multiview                 isis8
+        - htdp                      1.0_asp3.5.0
+        - isis                      8.3.0
+        - krb5                      1.21.2
+        - fgr                       asp3.5.0
+        - pdal                      2.6.0_asp3.5.0
+        - libelas                   asp3.5.0
+        - libpointmatcher           asp3.5.0
+        - s2p-subset                asp3.5.0
+        - usgscsm                   2.0.2
+        - visionworkbench           asp3.5.0
+        - multiview                 asp_3.4.0_alpha
         - eigen                     3.4.0
-        - ceres-solver=1.14.0=hf302a74_15 # [linux] # must use Eigen 3.4.0
-        - ceres-solver=1.14.0=h636452b_15 # [osx]   # must use Eigen 3.4.0
+        - ceres-solver              2.2.0
 
 test:
     files:
