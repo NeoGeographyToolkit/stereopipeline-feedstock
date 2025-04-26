@@ -40,7 +40,7 @@ requirements:
         - s2p-subset                asp3.5.0
         - usgscsm                   2.0.2
         - visionworkbench           asp3.5.0
-        - multiview                 asp_3.4.0_alpha
+        - multiview                 asp_3.5.0
         - eigen                     3.4.0
         - ceres-solver              2.2.0
 
@@ -61,7 +61,7 @@ requirements:
         - s2p-subset                asp3.5.0
         - usgscsm                   2.0.2
         - visionworkbench           asp3.5.0
-        - multiview                 asp_3.4.0_alpha
+        - multiview                 asp_3.5.0
         - eigen                     3.4.0
         - ceres-solver              2.2.0
 
