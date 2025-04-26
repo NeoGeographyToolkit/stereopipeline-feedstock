@@ -12,19 +12,18 @@ source:
 #  git_tag: {{ version }} # this tag must exist
 
 build:
-    number: 0
+    number: 1
 
 requirements:
     build:
-        - cmake 3.27.9
-
-    host:
-        # Having compilers as part of dependencies as in the local env helps
-        # sort out issues with conda-build later. Will sync up with ISIS.
+        - cmake                     3.27.9
+        # Compiler versions for ISIS compatibility
         - c-compiler                1.9.0
         - compilers                 1.9.0
         - cxx-compiler              1.9.0
         - fortran-compiler          1.9.0
+
+    host:
         - chrpath                   # [linux]
         - libglvnd                  # [linux]
         - llvm-openmp               16.0.6
