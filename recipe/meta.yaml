@@ -12,7 +12,7 @@ source:
 #  git_tag: {{ version }} # this tag must exist
 
 build:
-    number: 1
+    number: 2
 
 requirements:
     build:
@@ -30,7 +30,6 @@ requirements:
         - parallel
         - pbzip2
         - geoid                     1.0_isis7
-        - htdp                      1.0_asp3.5.0
         - isis                      8.3.0
         - krb5                      1.21.2
         - fgr                       asp3.5.0
@@ -51,7 +50,6 @@ requirements:
         - parallel
         - pbzip2
         - geoid                     1.0_isis7
-        - htdp                      1.0_asp3.5.0
         - isis                      8.3.0
         - krb5                      1.21.2
         - fgr                       asp3.5.0
