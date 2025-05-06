@@ -19,9 +19,7 @@ requirements:
         - cmake                     3.27.9
         # Compiler versions for ISIS compatibility
         - c-compiler                1.9.0
-        - compilers                 1.9.0
         - cxx-compiler              1.9.0
-        - fortran-compiler          1.9.0
 
     host:
         - chrpath                   # [linux]
