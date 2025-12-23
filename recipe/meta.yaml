@@ -1,65 +1,47 @@
 # Ensure that the VW and ASP meta.yaml files are in sync with each other and with 
 # ISIS. 
-{% set version = "3.5.0" %}
+{% set version = "3.6.0" %}
 
 package:
     name: stereo-pipeline
-    version: {{ version }} # will compile this version
+    version: {{ version }}
 
 source:
+  # No git tag. Just built the latest. 
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
-# No git tag. Just built the latest. More convenient this way.  
-#  git_tag: {{ version }} # this tag must exist
 
 build:
-    number: 2
+    number: 0
 
 requirements:
     build:
-        - cmake                     3.27.9
-        # Compiler versions for ISIS compatibility
-        - c-compiler                1.9.0
-        - cxx-compiler              1.9.0
+        - cmake >=3.27,<3.28
+        - make
+        - c-compiler 1.7.0
+        - cxx-compiler 1.7.0
+        - fortran-compiler 1.7.0
+        - git
+        - wget
+
+# Explicitly set suitesparse before ceres-solver to fetch the correct variant.
 
     host:
-        - chrpath                   # [linux]
-        - libglvnd                  # [linux]
-        - llvm-openmp               16.0.6
+        - suitesparse
+        - ceres-solver
+        - chrpath # [linux]
+        - fftw
+        - gflags
+        - glog
+        # - libpdal-core # built from source for now
+        - llvm-openmp
+        - mesalib
         - parallel
         - pbzip2
-        - geoid                     1.0_isis7
-        - isis                      8.3.0
-        - krb5                      1.21.2
-        - fgr                       asp3.5.0
-        - pdal                      2.6.0_asp3.5.0
-        - libelas                   asp3.5.0
-        - libpointmatcher           asp3.5.0
-        - s2p-subset                asp3.5.0
-        - usgscsm                   2.0.2
-        - visionworkbench           asp3.5.0
-        - multiview                 asp_3.5.0
-        - eigen                     3.4.0
-        - ceres-solver              2.2.0
-
-    run:
-        - chrpath                   # [linux]
-        - libglvnd                  # [linux]
-        - llvm-openmp               16.0.6
-        - parallel
-        - pbzip2
-        - geoid                     1.0_isis7
-        - isis                      8.3.0
-        - krb5                      1.21.2
-        - fgr                       asp3.5.0
-        - pdal                      2.6.0_asp3.5.0
-        - libelas                   asp3.5.0
-        - libpointmatcher           asp3.5.0
-        - s2p-subset                asp3.5.0
-        - usgscsm                   2.0.2
-        - visionworkbench           asp3.5.0
-        - multiview                 asp_3.5.0
-        - eigen                     3.4.0
-        - ceres-solver              2.2.0
+        - rapidjson
+        - rocksdb
+        - vlfeat
+        - usgscsm
+        - isis 9.0.0
 
 test:
     files:
