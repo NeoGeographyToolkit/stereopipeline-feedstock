@@ -24,7 +24,7 @@ requirements:
         - wget
 
     host:
-        - libunwind
+        - libunwind # [linux]
         - suitesparse
         # ceres needs a variant with suitesparse support
         - ceres-solver 2.2.0 h30ec75d_2  # [linux]
