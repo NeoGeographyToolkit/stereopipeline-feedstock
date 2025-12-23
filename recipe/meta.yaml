@@ -26,6 +26,7 @@ requirements:
 # Explicitly set suitesparse before ceres-solver to fetch the correct variant.
 
     host:
+        - libunwind
         - suitesparse
         - ceres-solver
         - chrpath # [linux]
