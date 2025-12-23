@@ -23,12 +23,13 @@ requirements:
         - git
         - wget
 
-# Explicitly set suitesparse before ceres-solver to fetch the correct variant.
-
     host:
         - libunwind
         - suitesparse
-        - ceres-solver
+        # ceres needs a variant with suitesparse support
+        - ceres-solver 2.2.0 h30ec75d_2  # [linux]
+        - ceres-solver 2.2.0 h5cbf65c_1  # [osx and x86_64]
+        - ceres-solver 2.2.0 h1a5cec8_1  # [osx and arm64]
         - chrpath # [linux]
         - fftw
         - gflags
