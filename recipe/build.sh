@@ -14,30 +14,11 @@
 # TODO(oalexan1): Must remove PDAL from here in future builds, if it becomes
 # available in conda-forge for current ISIS version.
 
-# Multiview
-cd $SRC_DIR
-#git clone git@github.com:NeoGeographyToolkit/MultiView.git --recursive
-git clone https://github.com/NeoGeographyToolkit/MultiView.git --recursive
-cd MultiView
-git submodule update --init --recursive
-mkdir -p build && cd build
-cmake ..                                          \
-    -DCMAKE_BUILD_TYPE=Release                    \
-    -DMULTIVIEW_DEPS_DIR=${PREFIX}                \
-    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13           \
-    -DCMAKE_MODULE_PATH=$PREFIX/share/pcl-1.13/Modules \
-    -DCMAKE_VERBOSE_MAKEFILE=ON                   \
-    -DCMAKE_CXX_FLAGS="-O3 -std=c++11 -Wno-error -I${PREFIX}/include" \
-    -DCMAKE_C_FLAGS='-O3 -Wno-error'              \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX}
-make -j${CPU_COUNT} install
-
 # ISIS 9.0.0 did not ship PDAL. The existing versions in conda are not
 # compatible with this ISIS version. So have to build PDAL as well.
 cd $SRC_DIR
 #git clone git@github.com:PDAL/PDAL.git
 git clone https://github.com/PDAL/PDAL.git
-# TODO(oalexan1): Must use https
 cd PDAL
 git checkout 2.9.3
 mkdir -p build
@@ -51,6 +32,7 @@ else
     ldflags="$ldflags -lunwind"
 fi
 cmake ${CMAKE_ARGS}                                      \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15                    \
   -DBUILD_SHARED_LIBS=ON                                 \
   -DCMAKE_BUILD_TYPE=Release                             \
   -DCMAKE_INSTALL_PREFIX=$PREFIX                         \
@@ -91,6 +73,24 @@ cmake ${CMAKE_ARGS}                                      \
   -DPROJ_INCLUDE_DIR=${PREFIX}/include                   \
   -DPROJ_LIBRARY:FILEPATH=${PREFIX}/lib/libproj${EXT}    \
   ..
+make -j${CPU_COUNT} install
+
+# Multiview
+cd $SRC_DIR
+#git clone git@github.com:NeoGeographyToolkit/MultiView.git --recursive
+git clone https://github.com/NeoGeographyToolkit/MultiView.git --recursive
+cd MultiView
+git submodule update --init --recursive
+mkdir -p build && cd build
+cmake ..                                          \
+    -DCMAKE_BUILD_TYPE=Release                    \
+    -DMULTIVIEW_DEPS_DIR=${PREFIX}                \
+    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13           \
+    -DCMAKE_MODULE_PATH=$PREFIX/share/pcl-1.13/Modules \
+    -DCMAKE_VERBOSE_MAKEFILE=ON                   \
+    -DCMAKE_CXX_FLAGS="-O3 -std=c++11 -Wno-error -I${PREFIX}/include" \
+    -DCMAKE_C_FLAGS='-O3 -Wno-error'              \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX}
 make -j${CPU_COUNT} install
 
 # geoid
