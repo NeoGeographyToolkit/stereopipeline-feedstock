@@ -15,6 +15,7 @@
 # compatible with this ISIS version. So have to build PDAL as well.
 cd $SRC_DIR
 git clone git@github.com:PDAL/PDAL.git
+# TODO(oalexan1): Must use https
 cd PDAL
 git checkout 2.9.3
 mkdir -p build
