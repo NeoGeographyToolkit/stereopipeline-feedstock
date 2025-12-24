@@ -20,12 +20,14 @@ cd PDAL
 git checkout 2.9.3
 mkdir -p build
 cd build
+ldflags="-Wl,-rpath,${PREFIX}/lib -L${PREFIX}/lib -lgeotiff -lcurl -lssl -lxml2 -lcrypto -lzstd -lz"
 if [ "$(uname)" = "Darwin" ]; then
     EXT='.dylib'
 else
     EXT='.so'
+    # add unwind to ldflags on Linux
+    ldflags="$ldflags -lunwind"
 fi
-ldflags="-Wl,-rpath,${PREFIX}/lib -L${PREFIX}/lib -lgeotiff -lcurl -lssl -lxml2 -lcrypto -lzstd -lz -lunwind"
 cmake ${CMAKE_ARGS}                                      \
   -DBUILD_SHARED_LIBS=ON                                 \
   -DCMAKE_BUILD_TYPE=Release                             \
