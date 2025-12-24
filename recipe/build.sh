@@ -11,6 +11,9 @@
 # build with conda, and it often fails because of dependency or other issues.
 # Hence do it this way.
 
+# TODO(oalexan1): Must remove PDAL from here in future builds, if it becomes
+# available in conda-forge for current ISIS version.
+
 # Multiview
 cd $SRC_DIR
 #git clone git@github.com:NeoGeographyToolkit/MultiView.git --recursive
