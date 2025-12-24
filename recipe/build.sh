@@ -11,10 +11,29 @@
 # build with conda, and it often fails because of dependency or other issues.
 # Hence do it this way.
 
+# Multiview
+cd $SRC_DIR
+#git clone git@github.com:NeoGeographyToolkit/MultiView.git --recursive
+git clone https://github.com/NeoGeographyToolkit/MultiView.git --recursive
+cd MultiView
+git submodule update --init --recursive
+mkdir -p build && cd build
+cmake ..                                          \
+    -DCMAKE_BUILD_TYPE=Release                    \
+    -DMULTIVIEW_DEPS_DIR=${PREFIX}                \
+    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13           \
+    -DCMAKE_MODULE_PATH=$PREFIX/share/pcl-1.13/Modules \
+    -DCMAKE_VERBOSE_MAKEFILE=ON                   \
+    -DCMAKE_CXX_FLAGS="-O3 -std=c++11 -Wno-error -I${PREFIX}/include" \
+    -DCMAKE_C_FLAGS='-O3 -Wno-error'              \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX}
+make -j${CPU_COUNT} install
+
 # ISIS 9.0.0 did not ship PDAL. The existing versions in conda are not
 # compatible with this ISIS version. So have to build PDAL as well.
 cd $SRC_DIR
-git clone git@github.com:PDAL/PDAL.git
+#git clone git@github.com:PDAL/PDAL.git
+git clone https://github.com/PDAL/PDAL.git
 # TODO(oalexan1): Must use https
 cd PDAL
 git checkout 2.9.3
@@ -248,26 +267,10 @@ else
     /bin/cp -fv elas ${BIN_DIR}/elas
 fi
 
-# Multiview
-cd $SRC_DIR
-git clone git@github.com:NeoGeographyToolkit/MultiView.git --recursive
-cd MultiView
-git submodule update --init --recursive
-mkdir -p build && cd build
-cmake ..                                          \
-    -DCMAKE_BUILD_TYPE=Release                    \
-    -DMULTIVIEW_DEPS_DIR=${PREFIX}                \
-    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13           \
-    -DCMAKE_MODULE_PATH=$PREFIX/share/pcl-1.13/Modules \
-    -DCMAKE_VERBOSE_MAKEFILE=ON                   \
-    -DCMAKE_CXX_FLAGS="-O3 -std=c++11 -Wno-error -I${PREFIX}/include" \
-    -DCMAKE_C_FLAGS='-O3 -Wno-error'              \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX}
-make -j${CPU_COUNT} install
-
 # Build latest visionworkbench
 cd $SRC_DIR
-git clone git@github.com:visionworkbench/visionworkbench.git
+#git clone git@github.com:visionworkbench/visionworkbench.git
+git clone https://github.com/visionworkbench/visionworkbench.git
 cd visionworkbench
 mkdir -p build
 cd build
@@ -279,7 +282,7 @@ cmake ..                                         \
     -DCMAKE_VERBOSE_MAKEFILE=ON
 make -j${CPU_COUNT} install
 
-# Build stereo-pipeline with ISIS and without OpenEXR. The source code is
+# Build stereo-pipeline with ISIS and without OpenEXR. The source code has been
 # fetched by conda-build based on meta.yaml.
 cd $SRC_DIR
 mkdir -p build
