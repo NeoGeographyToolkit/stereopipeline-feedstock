@@ -11,7 +11,7 @@ source:
   git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
 
 build:
-    number: 0
+    number: 1
 
 requirements:
     build:
@@ -25,6 +25,32 @@ requirements:
 
     host:
         - libunwind # [linux]
+        - xorg-libxxf86vm # [linux]
+        - mesa-libgl-devel-cos7-x86_64  # [linux]
+        - libglvnd-cos7-x86_64          # [linux]
+        - suitesparse
+        # ceres needs a variant with suitesparse support
+        - ceres-solver 2.2.0 h30ec75d_2  # [linux]
+        - ceres-solver 2.2.0 h5cbf65c_1  # [osx and x86_64]
+        - ceres-solver 2.2.0 h1a5cec8_1  # [osx and arm64]
+        - chrpath # [linux]
+        - fftw
+        - gflags
+        - glog
+        # - libpdal-core # built from source for now
+        - llvm-openmp
+        - mesalib
+        - parallel
+        - pbzip2
+        - rapidjson
+        - rocksdb
+        - vlfeat
+        - usgscsm
+        - isis 9.0.0
+
+    run:
+        - libunwind # [linux]
+        - xorg-libxxf86vm # [linux]
         - mesa-libgl-devel-cos7-x86_64  # [linux]
         - libglvnd-cos7-x86_64          # [linux]
         - suitesparse
