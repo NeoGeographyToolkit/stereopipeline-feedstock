@@ -72,7 +72,8 @@ requirements:
         - rocksdb
         - vlfeat
         - usgscsm
-        - isis 9.0.0
+        - isis 9.0.0 # [not (osx and arm64)]
+        - isis 9.0.0_asp # [osx and arm64]
 
 test:
     files:
