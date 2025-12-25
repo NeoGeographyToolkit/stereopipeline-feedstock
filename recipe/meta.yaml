@@ -8,13 +8,14 @@ package:
 
 source:
   # No git tag. Just built the latest. 
-  git_url: git@github.com:NeoGeographyToolkit/StereoPipeline.git
+  git_url: https://github.com/NeoGeographyToolkit/StereoPipeline.git
 
 build:
     number: 1
 
 requirements:
     build:
+        # Sync these up with latest ISIS
         - cmake >=3.27,<3.28
         - make
         - c-compiler 1.7.0
@@ -78,8 +79,8 @@ requirements:
 test:
     files:
         imports:
-        commands:
-        comment: "Add here something like stereo_pprc --version"
+        commands: stereo_pprc --version
+        comment: ""
 
 about:
     home: https://github.com/NeoGeographyToolkit/StereoPipeline
