@@ -15,6 +15,9 @@ build:
 
 requirements:
     build:
+    host:
+        # It is convenient to keep the tools in the host section so they 
+        # always exist in the environment.
         # Sync these up with latest ISIS
         - cmake >=3.27,<3.28
         - make
@@ -23,8 +26,6 @@ requirements:
         - fortran-compiler 1.7.0
         - git
         - wget
-
-    host:
         - libunwind # [linux]
         - xorg-libxxf86vm # [linux]
         - mesa-libgl-devel-cos7-x86_64  # [linux]
@@ -51,6 +52,13 @@ requirements:
         - isis 9.0.0_asp # [osx and arm64]
 
     run:
+        - cmake >=3.27,<3.28
+        - make
+        - c-compiler 1.7.0
+        - cxx-compiler 1.7.0
+        - fortran-compiler 1.7.0
+        - git
+        - wget
         - libunwind # [linux]
         - xorg-libxxf86vm # [linux]
         - mesa-libgl-devel-cos7-x86_64  # [linux]
