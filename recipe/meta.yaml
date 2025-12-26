@@ -30,6 +30,7 @@ requirements:
         - xorg-libxxf86vm # [linux]
         - mesa-libgl-devel-cos7-x86_64  # [linux]
         - libglvnd-cos7-x86_64          # [linux]
+        - ld64_osx-64 # [osx and x86_64]
         - suitesparse
         # ceres needs a variant with suitesparse support
         - ceres-solver 2.2.0 h30ec75d_2  # [linux]
@@ -52,6 +53,9 @@ requirements:
         - isis 9.0.0_asp # [osx and arm64]
 
     run:
+        # It is convenient to keep the tools in the host section so they 
+        # always exist in the environment.
+        # Sync these up with latest ISIS
         - cmake >=3.27,<3.28
         - make
         - c-compiler 1.7.0
@@ -63,6 +67,7 @@ requirements:
         - xorg-libxxf86vm # [linux]
         - mesa-libgl-devel-cos7-x86_64  # [linux]
         - libglvnd-cos7-x86_64          # [linux]
+        - ld64_osx-64 # [osx and x86_64]
         - suitesparse
         # ceres needs a variant with suitesparse support
         - ceres-solver 2.2.0 h30ec75d_2  # [linux]
