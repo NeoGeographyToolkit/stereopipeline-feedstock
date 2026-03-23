@@ -11,9 +11,9 @@
 # build with conda, and it often fails because of dependency or other issues.
 # Hence do it this way.
 
-# TODO(oalexan1): Must remove PDAL from here in future builds, if it becomes
-# available in conda-forge for current ISIS version.
-
+# PDAL is now available from conda-forge. No longer built from source.
+# The old source build is kept below for reference, disabled.
+if false; then
 # ISIS 9.0.0 did not ship PDAL. The existing versions in conda are not
 # compatible with this ISIS version. So have to build PDAL as well.
 cd $SRC_DIR
@@ -74,6 +74,19 @@ cmake ${CMAKE_ARGS}                                      \
   -DPROJ_LIBRARY:FILEPATH=${PREFIX}/lib/libproj${EXT}    \
   ..
 make -j${CPU_COUNT} install
+fi # end disabled PDAL block
+
+# cgal_tools (mesh utilities: fill_holes, smoothe_mesh, etc.)
+# CGAL comes from conda (meta.yaml). cgal_tools uses find_package(CGAL).
+cd $SRC_DIR
+git clone https://github.com/NeoGeographyToolkit/cgal_tools.git
+cd cgal_tools
+mkdir -p build && cd build
+cmake ..                                         \
+    -DCMAKE_BUILD_TYPE=Release                   \
+    -DCMAKE_PREFIX_PATH=${PREFIX}                \
+    -DCGAL_TOOLS_INSTALL_DIR=${PREFIX}
+make -j${CPU_COUNT} install
 
 # Multiview
 cd $SRC_DIR
@@ -86,7 +99,7 @@ cmake ..                                          \
     -DCMAKE_BUILD_TYPE=Release                    \
     -DMULTIVIEW_DEPS_DIR=${PREFIX}                \
     -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13           \
-    -DCMAKE_MODULE_PATH=$PREFIX/share/pcl-1.13/Modules \
+    -DCMAKE_MODULE_PATH=$PREFIX/share/pcl-1.15/Modules \
     -DCMAKE_VERBOSE_MAKEFILE=ON                   \
     -DCMAKE_CXX_FLAGS="-O3 -std=c++11 -Wno-error -I${PREFIX}/include" \
     -DCMAKE_C_FLAGS='-O3 -Wno-error'              \

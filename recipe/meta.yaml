@@ -48,12 +48,16 @@ requirements:
         - rapidjson
         - rocksdb
         - vlfeat
-        - usgscsm
-        - isis 9.0.0 # [not (osx and arm64)]
-        - isis 9.0.0_asp # [osx and arm64]
+        - cgal
+        - pdal
+        # TODO(oalexan1): Revisit before next release. Currently building
+        # usgscsm and isis from source in build.sh.
+        # - usgscsm
+        # - isis 9.0.0 # [not (osx and arm64)]
+        # - isis 9.0.0_asp # [osx and arm64]
 
     run:
-        # It is convenient to keep the tools in the host section so they 
+        # It is convenient to keep the tools in the host section so they
         # always exist in the environment.
         # Sync these up with latest ISIS
         - cmake >=3.27,<3.28
@@ -85,9 +89,13 @@ requirements:
         - rapidjson
         - rocksdb
         - vlfeat
-        - usgscsm
-        - isis 9.0.0 # [not (osx and arm64)]
-        - isis 9.0.0_asp # [osx and arm64]
+        - cgal
+        - pdal
+        # TODO(oalexan1): Revisit before next release. Currently building
+        # usgscsm and isis from source in build.sh.
+        # - usgscsm
+        # - isis 9.0.0 # [not (osx and arm64)]
+        # - isis 9.0.0_asp # [osx and arm64]
 
 test:
     files:
