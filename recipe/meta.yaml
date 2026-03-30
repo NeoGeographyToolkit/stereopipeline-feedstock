@@ -136,9 +136,8 @@ requirements:
         - mesa-libgl-devel-cos7-x86_64  # [linux]
         - libglvnd-cos7-x86_64          # [linux]
         - ld64_osx-64 # [osx and x86_64]
-        - ceres-solver 2.2.0 h30ec75d_2  # [linux]
-        - ceres-solver 2.2.0 h5cbf65c_1  # [osx and x86_64]
-        - ceres-solver 2.2.0 h1a5cec8_1  # [osx and arm64]
+        - ceres-solver 2.2.0 h036b7f2_2  # [osx and arm64]
+        - ceres-solver =2.2.0  # [not (osx and arm64)]
         - chrpath # [linux]
         - cgal
         - eigen >=3,<4
