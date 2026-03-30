@@ -11,6 +11,12 @@
 # build with conda, and it often fails because of dependency or other issues.
 # Hence do it this way.
 
+# TODO(oalexan1): ALE, USGSCSM, and ISIS are currently built from source
+# (not in this script, but during dev builds) because their conda packages
+# have not caught up with the latest versions we need (ALE 1.1.3,
+# USGSCSM 2.0.1, ISIS 10.x). Will revert to fetching from conda before
+# the next release, once conda-forge publishes updated packages.
+
 # PDAL is now available from conda-forge. No longer built from source.
 # The old source build is kept below for reference, disabled.
 if false; then

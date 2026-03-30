@@ -1,13 +1,13 @@
-# Ensure that the VW and ASP meta.yaml files are in sync with each other and with 
-# ISIS. 
-{% set version = "3.6.0" %}
+# Ensure that the VW and ASP meta.yaml files are in sync with each other and with
+# ISIS. Dep versions are synced to ISIS 10.x environment.yml.
+{% set version = "3.7.0" %}
 
 package:
     name: stereo-pipeline
     version: {{ version }}
 
 source:
-  # No git tag. Just built the latest. 
+  # No git tag. Just built the latest.
   git_url: https://github.com/NeoGeographyToolkit/StereoPipeline.git
 
 build:
@@ -16,55 +16,14 @@ build:
 requirements:
     build:
     host:
-        # It is convenient to keep the tools in the host section so they 
-        # always exist in the environment.
-        # Sync these up with latest ISIS
-        - cmake >=3.27,<3.28
-        - make
-        - c-compiler 1.7.0
-        - cxx-compiler 1.7.0
-        - fortran-compiler 1.7.0
-        - git
-        - wget
-        - libunwind # [linux]
-        - xorg-libxxf86vm # [linux]
-        - mesa-libgl-devel-cos7-x86_64  # [linux]
-        - libglvnd-cos7-x86_64          # [linux]
-        - ld64_osx-64 # [osx and x86_64]
-        - suitesparse
-        # ceres needs a variant with suitesparse support
-        - ceres-solver 2.2.0 h30ec75d_2  # [linux]
-        - ceres-solver 2.2.0 h5cbf65c_1  # [osx and x86_64]
-        - ceres-solver 2.2.0 h1a5cec8_1  # [osx and arm64]
-        - chrpath # [linux]
-        - fftw
-        - gflags
-        - glog
-        # - libpdal-core # built from source for now
-        - llvm-openmp
-        - mesalib
-        - parallel
-        - pbzip2
-        - rapidjson
-        - rocksdb
-        - vlfeat
-        - cgal
-        - pdal
-        # TODO(oalexan1): Revisit before next release. Currently building
-        # usgscsm and isis from source in build.sh.
-        # - usgscsm
-        # - isis 9.0.0 # [not (osx and arm64)]
-        # - isis 9.0.0_asp # [osx and arm64]
-
-    run:
         # It is convenient to keep the tools in the host section so they
         # always exist in the environment.
-        # Sync these up with latest ISIS
+        # Synced with ISIS 10.x environment.yml (2026-03-30).
         - cmake >=3.27,<3.28
         - make
-        - c-compiler 1.7.0
-        - cxx-compiler 1.7.0
-        - fortran-compiler 1.7.0
+        - c-compiler 1.9
+        - cxx-compiler 1.9
+        - fortran-compiler 1.9
         - git
         - wget
         - libunwind # [linux]
@@ -72,30 +31,193 @@ requirements:
         - mesa-libgl-devel-cos7-x86_64  # [linux]
         - libglvnd-cos7-x86_64          # [linux]
         - ld64_osx-64 # [osx and x86_64]
-        - suitesparse
-        # ceres needs a variant with suitesparse support
+        # ceres needs a variant with suitesparse support (for TheiaSfM).
+        # TODO(oalexan1): Find the precise compatible build hash for each
+        # platform (linux, osx-x64, osx-arm64) after creating the new
+        # asp_deps env. The hash encodes which SuiteSparse variant was used.
+        - ceres-solver =2.2.0
+        - chrpath # [linux]
+        - cgal
+        - eigen >=3,<4
+        - fftw
+        - gflags
+        - glog
+        - llvm-openmp
+        - mesalib
+        - nlohmann_json =3.11.2
+        - parallel
+        - pbzip2
+        - pdal >=2.8.4,<3
+        - rapidjson
+        - rocksdb
+        - suitesparse <7.7.0
+        - vlfeat
+        # Deps synced to ISIS 10.x
+        - armadillo
+        - blas
+        - bullet >=3.25
+        - bz2file
+        - bzip2
+        - cspice =67
+        - csm >=3.0.3,<3.0.4
+        - curl >=8.14.1,<9
+        - doxygen
+        - embree >=3,<4
+        - ffmpeg
+        - gdal >=3.12.2,<4
+        - geos >=3.14,<3.15
+        - geotiff
+        - gmp
+        - conda-forge::gsl >=2.6,<2.7
+        - hdf5
+        - highfive
+        - icu
+        - inja
+        - jama
+        - kalasiris
+        - krb5
+        - libboost >=1.88.0,<1.89
+        - libgdal >=3.12.2,<4
+        - libopencv >=4.12,<5
+        - libpng >=1.6.34,<1.7
+        - libprotobuf >=6,<7
+        - libtiff >=4.5,<4.8
+        - libxml2
+        - mysql # [linux]
+        - mysql-connector-c # [linux]
+        - nanoflann >=1.4.2,<1.5
+        - nn
+        - opencv >=4.12,<4.13
+        - openssl >=3.5,<4
+        - pcl >=1.15,<1.16
+        - plio =1.5.3
+        - protobuf >=6,<7
+        - python >=3.9
+        - python_abi >=3.9
+        - qhull
+        - qt6-main >=6,<7
+        - qwt =6.3.0
+        - spiceypy >=6,<7
+        - spiceql >=1.2.4,<2
+        - sqlite >=3.46.0,<4
+        - superlu
+        - swig
+        - tbb
+        - tbb-devel
+        - tnt
+        - x264
+        - xalan-c >=1.12,<1.13  # [linux]
+        - xerces-c >=3.3.0,<3.4
+        - xorg-kbproto
+        - xorg-libice
+        - xorg-libsm
+        - xorg-libx11
+        - xorg-libxi
+        - zlib
+        # TODO(oalexan1): Revisit before next release. Currently building
+        # ale, usgscsm, and isis from source in build.sh because conda
+        # packages have not caught up with latest versions yet. Will
+        # revert to conda packages before the next release.
+        # - ale >=1.1.1,<2
+        # - usgscsm
+        # - isis
+
+    run:
+        # Synced with ISIS 10.x environment.yml (2026-03-30).
+        - cmake >=3.27,<3.28
+        - make
+        - c-compiler 1.9
+        - cxx-compiler 1.9
+        - fortran-compiler 1.9
+        - git
+        - wget
+        - libunwind # [linux]
+        - xorg-libxxf86vm # [linux]
+        - mesa-libgl-devel-cos7-x86_64  # [linux]
+        - libglvnd-cos7-x86_64          # [linux]
+        - ld64_osx-64 # [osx and x86_64]
         - ceres-solver 2.2.0 h30ec75d_2  # [linux]
         - ceres-solver 2.2.0 h5cbf65c_1  # [osx and x86_64]
         - ceres-solver 2.2.0 h1a5cec8_1  # [osx and arm64]
         - chrpath # [linux]
+        - cgal
+        - eigen >=3,<4
         - fftw
         - gflags
         - glog
-        # - libpdal-core # built from source for now
         - llvm-openmp
         - mesalib
+        - nlohmann_json =3.11.2
         - parallel
         - pbzip2
+        - pdal >=2.8.4,<3
         - rapidjson
         - rocksdb
+        - suitesparse <7.7.0
         - vlfeat
-        - cgal
-        - pdal
-        # TODO(oalexan1): Revisit before next release. Currently building
-        # usgscsm and isis from source in build.sh.
+        - armadillo
+        - blas
+        - bullet >=3.25
+        - bz2file
+        - bzip2
+        - cspice =67
+        - csm >=3.0.3,<3.0.4
+        - curl >=8.14.1,<9
+        - embree >=3,<4
+        - ffmpeg
+        - gdal >=3.12.2,<4
+        - geos >=3.14,<3.15
+        - geotiff
+        - gmp
+        - conda-forge::gsl >=2.6,<2.7
+        - hdf5
+        - highfive
+        - icu
+        - inja
+        - jama
+        - kalasiris
+        - krb5
+        - libboost >=1.88.0,<1.89
+        - libgdal >=3.12.2,<4
+        - libopencv >=4.12,<5
+        - libpng >=1.6.34,<1.7
+        - libprotobuf >=6,<7
+        - libtiff >=4.5,<4.8
+        - libxml2
+        - mysql # [linux]
+        - mysql-connector-c # [linux]
+        - nanoflann >=1.4.2,<1.5
+        - nn
+        - opencv >=4.12,<4.13
+        - openssl >=3.5,<4
+        - pcl >=1.15,<1.16
+        - plio =1.5.3
+        - protobuf >=6,<7
+        - python >=3.9
+        - python_abi >=3.9
+        - qhull
+        - qt6-main >=6,<7
+        - qwt =6.3.0
+        - spiceypy >=6,<7
+        - spiceql >=1.2.4,<2
+        - sqlite >=3.46.0,<4
+        - superlu
+        - swig
+        - tbb
+        - tbb-devel
+        - tnt
+        - x264
+        - xalan-c >=1.12,<1.13  # [linux]
+        - xerces-c >=3.3.0,<3.4
+        - xorg-kbproto
+        - xorg-libice
+        - xorg-libsm
+        - xorg-libx11
+        - xorg-libxi
+        - zlib
+        # - ale >=1.1.1,<2
         # - usgscsm
-        # - isis 9.0.0 # [not (osx and arm64)]
-        # - isis 9.0.0_asp # [osx and arm64]
+        # - isis
 
 test:
     files:
