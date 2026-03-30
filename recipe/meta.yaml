@@ -35,7 +35,8 @@ requirements:
         # TODO(oalexan1): Find the precise compatible build hash for
         # linux and osx-x64 after creating asp_deps on those platforms.
         - ceres-solver 2.2.0 h036b7f2_2  # [osx and arm64]
-        - ceres-solver =2.2.0  # [not (osx and arm64)]
+        - ceres-solver 2.2.0 haa0d064_2  # [osx and x86_64]
+        - ceres-solver =2.2.0  # [linux]
         - chrpath # [linux]
         - cgal
         - eigen >=3,<4
@@ -137,7 +138,8 @@ requirements:
         - libglvnd-cos7-x86_64          # [linux]
         - ld64_osx-64 # [osx and x86_64]
         - ceres-solver 2.2.0 h036b7f2_2  # [osx and arm64]
-        - ceres-solver =2.2.0  # [not (osx and arm64)]
+        - ceres-solver 2.2.0 haa0d064_2  # [osx and x86_64]
+        - ceres-solver =2.2.0  # [linux]
         - chrpath # [linux]
         - cgal
         - eigen >=3,<4
