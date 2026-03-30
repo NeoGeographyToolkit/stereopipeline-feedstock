@@ -32,10 +32,10 @@ requirements:
         - libglvnd-cos7-x86_64          # [linux]
         - ld64_osx-64 # [osx and x86_64]
         # ceres needs a variant with suitesparse support (for TheiaSfM).
-        # TODO(oalexan1): Find the precise compatible build hash for each
-        # platform (linux, osx-x64, osx-arm64) after creating the new
-        # asp_deps env. The hash encodes which SuiteSparse variant was used.
-        - ceres-solver =2.2.0
+        # TODO(oalexan1): Find the precise compatible build hash for
+        # linux and osx-x64 after creating asp_deps on those platforms.
+        - ceres-solver 2.2.0 h036b7f2_2  # [osx and arm64]
+        - ceres-solver =2.2.0  # [not (osx and arm64)]
         - chrpath # [linux]
         - cgal
         - eigen >=3,<4
