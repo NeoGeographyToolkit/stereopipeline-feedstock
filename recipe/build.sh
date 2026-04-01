@@ -82,8 +82,9 @@ cmake ${CMAKE_ARGS}                                      \
 make -j${CPU_COUNT} install
 fi # end disabled PDAL block
 
-# cgal_tools (mesh utilities: fill_holes, smoothe_mesh, etc.)
-# CGAL comes from conda (meta.yaml). cgal_tools uses find_package(CGAL).
+# cgal_tools (mesh utilities: fill_holes, smoothe_mesh, rm_connected_components,
+# simplify_mesh). CGAL comes from conda (meta.yaml, version 6.x).
+# cgal_tools uses find_package(CGAL) from the system (no FetchContent).
 cd $SRC_DIR
 git clone https://github.com/NeoGeographyToolkit/cgal_tools.git
 cd cgal_tools
@@ -94,7 +95,11 @@ cmake ..                                         \
     -DCGAL_TOOLS_INSTALL_DIR=${PREFIX}
 make -j${CPU_COUNT} install
 
-# Multiview
+# MultiView (includes TheiaSfM)
+# MULTIVIEW_DEPS_DIR is required for MultiView's custom cmake find scripts.
+# CMAKE_MODULE_PATH must point to the PCL modules directory; update the PCL
+# version (e.g., pcl-1.15) when the conda PCL package changes.
+# Requires ceres-solver with SuiteSparse support (TheiaSfM needs it).
 cd $SRC_DIR
 #git clone git@github.com:NeoGeographyToolkit/MultiView.git --recursive
 git clone https://github.com/NeoGeographyToolkit/MultiView.git --recursive
@@ -112,7 +117,9 @@ cmake ..                                          \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}
 make -j${CPU_COUNT} install
 
-# geoid
+# geoid (EGM2008 Fortran library + geoid raster data)
+# Requires a Fortran compiler (FC is set by conda's fortran-compiler package).
+# Installs a shared lib (libegm2008) and geoid rasters (tif, jp2) to share/geoids/.
 cd $SRC_DIR
 wget https://github.com/NeoGeographyToolkit/StereoPipeline/releases/download/geoid1.0/geoids.tgz > /dev/null 2>&1 # this is verbose
 tar xzf geoids.tgz
@@ -135,6 +142,10 @@ mkdir -p ${GEOID_DIR}
 /bin/cp -fv *tif *jp2 ${GEOID_DIR}
 
 # libnabo
+# CRITICAL: BUILD_SHARED_LIBS=ON is required. libnabo defaults to static,
+# and ASP cmake looks for libnabo.dylib/.so. Without this flag, only a .a
+# is produced and ASP fails with "Failed to find REQUIRED library LIBNABO".
+# The Boost and Eigen hints are also required for reliable discovery.
 cd $SRC_DIR
 git clone https://github.com/NeoGeographyToolkit/libnabo.git
 cd libnabo
@@ -154,6 +165,10 @@ cmake                                          \
 make -j${CPU_COUNT} install
 
 # libpointmatcher
+# Depends on libnabo (built above). Must also be shared (BUILD_SHARED_LIBS=ON).
+# The Boost hints (Dir, Include, No_BOOST_CMAKE, No_SYSTEM_PATHS) ensure
+# the conda Boost is found reliably; omitting them can pick up system Boost.
+# EIGEN_INCLUDE_DIR is needed because conda installs to include/eigen3/.
 cd $SRC_DIR
 git clone https://github.com/NeoGeographyToolkit/libpointmatcher.git
 cd libpointmatcher
@@ -177,7 +192,10 @@ cmake                                          \
   ..
 make -j${CPU_COUNT} install
 
-# fgr
+# fgr (FastGlobalRegistration)
+# Has no cmake install target - binaries and headers are copied manually below.
+# Needs -llz4 for FLANN serialization support; without it, linking fails.
+# The source dir is a subdirectory (source/), not the repo root.
 cd $SRC_DIR
 git clone https://github.com/NeoGeographyToolkit/FastGlobalRegistration.git
 cd FastGlobalRegistration
@@ -201,7 +219,11 @@ FGR_LIB_DIR=${PREFIX}/lib
 mkdir -p ${FGR_LIB_DIR}
 /bin/cp -fv FastGlobalRegistration/libFastGlobalRegistrationLib* ${FGR_LIB_DIR}
 
-#s2p
+# s2p (stereo matching plugins: mgm, msmw, msmw2)
+# Uses plain Makefiles (mgm) and cmake (msmw, msmw2), not a single build system.
+# The Makefile is modified in-place with perl; careful with repeat builds.
+# NOTE: -march=native detects the build host CPU. For cross-compilation, replace
+# with an explicit arch flag (e.g., -mavx2 -mfma -msse4.2 for x86_64).
 cd $SRC_DIR
 git clone https://github.com/NeoGeographyToolkit/s2p.git --recursive
 cd s2p
@@ -261,7 +283,9 @@ mkdir -p ${BIN_DIR}
     ${BIN_DIR}/msmw2
 
 # libelas
-if [ "$(uname -m | grep -i arm)" != "" ]; then 
+# Does NOT build on ARM (uses x86 SSE assembly intrinsics). Skipped on osx-arm64.
+# Only built on linux-64 and osx-x64.
+if [ "$(uname -m | grep -i arm)" != "" ]; then
     echo Libelas does not build on Arm
 else
     cd $SRC_DIR
@@ -289,7 +313,8 @@ else
     /bin/cp -fv elas ${BIN_DIR}/elas
 fi
 
-# Build latest visionworkbench
+# Build VisionWorkbench
+# cmake source dir is the repo root (has CMakeLists.txt), NOT a src/ subdir.
 cd $SRC_DIR
 #git clone git@github.com:visionworkbench/visionworkbench.git
 git clone https://github.com/visionworkbench/visionworkbench.git
@@ -304,8 +329,9 @@ cmake ..                                         \
     -DCMAKE_VERBOSE_MAKEFILE=ON
 make -j${CPU_COUNT} install
 
-# Build stereo-pipeline with ISIS and without OpenEXR. The source code has been
-# fetched by conda-build based on meta.yaml.
+# Build StereoPipeline with ISIS and without OpenEXR.
+# cmake source dir is the repo root (has CMakeLists.txt), NOT a src/ subdir.
+# The source code has been fetched by conda-build based on meta.yaml.
 cd $SRC_DIR
 mkdir -p build
 cd build
