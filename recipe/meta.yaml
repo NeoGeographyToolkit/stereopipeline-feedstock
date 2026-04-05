@@ -19,11 +19,20 @@ requirements:
         # It is convenient to keep the tools in the host section so they
         # always exist in the environment.
         # Synced with ISIS 10.x environment.yml (2026-03-30).
+        # Linux compiler bumped to gcc >=14 (2026-04-04): conda-forge
+        # builds libgdal against libstdcxx 15.x (CXXABI_1.3.15), which
+        # gcc 13 cannot link. Mac stays at 1.9 (clang, unaffected).
+        # TODO(oalexan1): Revisit if ISIS bumps cxx-compiler above 1.9.
         - cmake >=3.27,<3.28
         - make
-        - c-compiler 1.9
-        - cxx-compiler 1.9
-        - fortran-compiler 1.9
+        - c-compiler 1.9  # [not linux]
+        - cxx-compiler 1.9  # [not linux]
+        - fortran-compiler 1.9  # [not linux]
+        - c-compiler  # [linux]
+        - cxx-compiler  # [linux]
+        - fortran-compiler  # [linux]
+        - gcc >=14,<15  # [linux]
+        - gxx >=14,<15  # [linux]
         - git
         - wget
         - libunwind # [linux]
@@ -127,9 +136,14 @@ requirements:
         # Synced with ISIS 10.x environment.yml (2026-03-30).
         - cmake >=3.27,<3.28
         - make
-        - c-compiler 1.9
-        - cxx-compiler 1.9
-        - fortran-compiler 1.9
+        - c-compiler 1.9  # [not linux]
+        - cxx-compiler 1.9  # [not linux]
+        - fortran-compiler 1.9  # [not linux]
+        - c-compiler  # [linux]
+        - cxx-compiler  # [linux]
+        - fortran-compiler  # [linux]
+        - gcc >=14,<15  # [linux]
+        - gxx >=14,<15  # [linux]
         - git
         - wget
         - libunwind # [linux]
