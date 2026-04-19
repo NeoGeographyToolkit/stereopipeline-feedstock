@@ -229,7 +229,7 @@ git clone https://github.com/NeoGeographyToolkit/s2p.git --recursive
 cd s2p
 # update recursive submodules
 git submodule update --init --recursive
-export CFLAGS="-I$PREFIX/include -O3 -DNDEBUG -march=native"
+export CFLAGS="-I$PREFIX/include -O3 -DNDEBUG"
 export LDFLAGS="-L$PREFIX/lib"
 baseDir=$(pwd)
 # Extension
@@ -292,7 +292,7 @@ else
     git clone https://github.com/NeoGeographyToolkit/libelas.git
     cd libelas
     # Set the env
-    export CFLAGS="-I$PREFIX/include -O3 -DNDEBUG -ffast-math -march=native"
+    export CFLAGS="-I$PREFIX/include -O3 -DNDEBUG -ffast-math"
     export LDFLAGS="-L$PREFIX/lib"
     if [ "$(uname)" = "Darwin" ]; then
         EXT='.dylib'
