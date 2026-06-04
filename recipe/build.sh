@@ -283,35 +283,32 @@ mkdir -p ${BIN_DIR}
     ${BIN_DIR}/msmw2
 
 # libelas
-# Does NOT build on ARM (uses x86 SSE assembly intrinsics). Skipped on osx-arm64.
-# Only built on linux-64 and osx-x64.
-if [ "$(uname -m | grep -i arm)" != "" ]; then
-    echo Libelas does not build on Arm
+# Now builds on ARM too: ported to Mac ARM64 via sse2neon (the x86 SSE
+# intrinsics are mapped to NEON). Built on all platforms (linux-64,
+# osx-64, osx-arm64).
+cd $SRC_DIR
+git clone https://github.com/NeoGeographyToolkit/libelas.git
+cd libelas
+# Set the env
+export CFLAGS="-I$PREFIX/include -O3 -DNDEBUG -ffast-math"
+export LDFLAGS="-L$PREFIX/lib"
+if [ "$(uname)" = "Darwin" ]; then
+    EXT='.dylib'
 else
-    cd $SRC_DIR
-    git clone https://github.com/NeoGeographyToolkit/libelas.git
-    cd libelas
-    # Set the env
-    export CFLAGS="-I$PREFIX/include -O3 -DNDEBUG -ffast-math"
-    export LDFLAGS="-L$PREFIX/lib"
-    if [ "$(uname)" = "Darwin" ]; then
-        EXT='.dylib'
-    else
-        EXT='.so'
-    fi
-    # build
-    mkdir -p build
-    cd build
-    cmake ..                                             \
-    -DTIFF_LIBRARY_RELEASE="${PREFIX}/lib/libtiff${EXT}" \
-    -DTIFF_INCLUDE_DIR="${PREFIX}/include"               \
-    -DCMAKE_CXX_FLAGS="-I${PREFIX}/include"
-    make -j${CPU_COUNT}
-    # Copy the 'elas' tool to the plugins subdir meant for it
-    BIN_DIR=${PREFIX}/plugins/stereo/elas/bin
-    mkdir -p ${BIN_DIR}
-    /bin/cp -fv elas ${BIN_DIR}/elas
+    EXT='.so'
 fi
+# build
+mkdir -p build
+cd build
+cmake ..                                             \
+-DTIFF_LIBRARY_RELEASE="${PREFIX}/lib/libtiff${EXT}" \
+-DTIFF_INCLUDE_DIR="${PREFIX}/include"               \
+-DCMAKE_CXX_FLAGS="-I${PREFIX}/include"
+make -j${CPU_COUNT}
+# Copy the 'elas' tool to the plugins subdir meant for it
+BIN_DIR=${PREFIX}/plugins/stereo/elas/bin
+mkdir -p ${BIN_DIR}
+/bin/cp -fv elas ${BIN_DIR}/elas
 
 # Build VisionWorkbench
 # cmake source dir is the repo root (has CMakeLists.txt), NOT a src/ subdir.
