@@ -56,7 +56,8 @@ requirements:
         - pbzip2
         - pdal >=2.8.4,<3
         - rapidjson
-        - rocksdb <10
+        - rocksdb <10  # [linux]
+        - rocksdb 10.10.1  # [osx]
         - suitesparse <7.7.0
         - vlfeat
         # Deps synced to ISIS 10.x
@@ -161,7 +162,8 @@ requirements:
         - pbzip2
         - pdal >=2.8.4,<3
         - rapidjson
-        - rocksdb <10
+        - rocksdb <10  # [linux]
+        - rocksdb 10.10.1  # [osx]
         - suitesparse <7.7.0
         - vlfeat
         - armadillo

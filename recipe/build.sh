@@ -105,6 +105,15 @@ cd $SRC_DIR
 git clone https://github.com/NeoGeographyToolkit/MultiView.git --recursive
 cd MultiView
 git submodule update --init --recursive
+# osx-64 (x86_64 under Rosetta) cross-build fix: strip -flto from TheiaSfM.
+# Under the cross build the LTO finalize/relink of the theia apps + voxblox
+# fails at install time ("clang: error: no input files"). There are two LTO
+# spots (the only -flto refs in the tree): the main theia lib and the akaze
+# sub-library OptimizeCompilerFlags.cmake. -flto is only a build-speed flag, so
+# stripping it is harmless; native arm64 and Linux were never affected.
+perl -i -pe 's/ -flto"/"/g' \
+  TheiaSfM/cmake/OptimizeTheiaCompilerFlags.cmake \
+  TheiaSfM/libraries/akaze/cmake/OptimizeCompilerFlags.cmake
 mkdir -p build && cd build
 cmake ..                                          \
     -DCMAKE_BUILD_TYPE=Release                    \
@@ -114,8 +123,20 @@ cmake ..                                          \
     -DCMAKE_VERBOSE_MAKEFILE=ON                   \
     -DCMAKE_CXX_FLAGS="-O3 -std=c++17 -Wno-error -I${PREFIX}/include" \
     -DCMAKE_C_FLAGS='-O3 -Wno-error'              \
+    -DCMAKE_SKIP_INSTALL_RPATH=ON                 \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}
-make -j${CPU_COUNT} install
+# Build, then install SERIAL. On the osx-64 cross build, `make -j install` has a
+# parallel ordering issue that relinks a target with no inputs at install time
+# ("clang: error: no input files"); a non-parallel `make install` avoids it.
+# CMAKE_SKIP_INSTALL_RPATH avoids the install_name_tool duplicate-rpath error on
+# voxblox/mve. Capture the install to a clean per-step log (conda-build
+# interleaves stdout, making the failing command unreadable) and dump on failure.
+make -j${CPU_COUNT}
+make install V=1 VERBOSE=1 > "$SRC_DIR/mv_install.log" 2>&1 || {
+  echo "=== MultiView make install FAILED - clean tail (in order) ==="
+  tail -60 "$SRC_DIR/mv_install.log"
+  exit 1
+}
 
 # geoid (EGM2008 Fortran library + geoid raster data)
 # Requires a Fortran compiler (FC is set by conda's fortran-compiler package).
@@ -131,8 +152,12 @@ else
     LIB_FLAG='-shared'
     EXT='.so'
 fi
-# Build
-${FC} ${FFLAGS} -fPIC -O3 -c interp_2p5min.f
+# Build. Strip -pipe from FFLAGS: under the osx-64 Rosetta cross build the conda
+# x86_64 gfortran wrapper pipes to clang as the assembler and loses the input
+# file with -pipe ("clang: error: no input files"). -pipe only affects build
+# speed (pipes vs temp files), so removing it is harmless on every platform; the
+# C/C++ clang compiler is unaffected, only gfortran's wrapper chokes.
+${FC} ${FFLAGS//-pipe/} -fPIC -O3 -c interp_2p5min.f
 ${FC} ${LDFLAGS} ${LIB_FLAG} -o libegm2008${EXT} interp_2p5min.o
 # Install
 mkdir -p ${PREFIX}/lib
@@ -332,6 +357,13 @@ make -j${CPU_COUNT} install
 cd $SRC_DIR
 mkdir -p build
 cd build
+# -Wl,--allow-shlib-undefined is GNU ld (Linux); macOS ld64 rejects it. Mac
+# links clean without extra flags, so use them on Linux only.
+if [ "$(uname)" = "Linux" ]; then
+    ASP_LINK_FLAGS="-Wl,--allow-shlib-undefined -lfmt -lm"
+else
+    ASP_LINK_FLAGS=""
+fi
 cmake ..                             \
     -DCMAKE_PREFIX_PATH=${PREFIX}    \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
@@ -339,6 +371,6 @@ cmake ..                             \
     -DUSE_ISIS=ON                    \
     -DUSE_OPENEXR=OFF                \
     -DCMAKE_VERBOSE_MAKEFILE=ON      \
-    -DCMAKE_EXE_LINKER_FLAGS="-Wl,--allow-shlib-undefined -lfmt -lm" \
-    -DCMAKE_SHARED_LINKER_FLAGS="-Wl,--allow-shlib-undefined -lfmt -lm"
+    -DCMAKE_EXE_LINKER_FLAGS="${ASP_LINK_FLAGS}" \
+    -DCMAKE_SHARED_LINKER_FLAGS="${ASP_LINK_FLAGS}"
 make -j${CPU_COUNT} install
