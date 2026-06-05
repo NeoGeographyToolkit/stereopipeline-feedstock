@@ -11,8 +11,8 @@ source:
   git_rev: e3ffe5717
 
 build:
-    number: 0
-    string: asp_0
+    number: 1
+    string: asp_1
 
 requirements:
     build:
@@ -92,6 +92,7 @@ requirements:
         - libprotobuf >=6,<7
         - libtiff >=4.5,<4.8
         - libxml2
+        - mkl # [linux]
         - mysql # [linux]
         - mysql-connector-c # [linux]
         - nanoflann >=1.4.2,<1.5
@@ -196,6 +197,7 @@ requirements:
         - libprotobuf >=6,<7
         - libtiff >=4.5,<4.8
         - libxml2
+        - mkl # [linux]
         - mysql # [linux]
         - mysql-connector-c # [linux]
         - nanoflann >=1.4.2,<1.5
