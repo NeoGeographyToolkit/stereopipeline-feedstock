@@ -232,7 +232,7 @@ requirements:
 
 test:
     commands:
-        - stereo_pprc --version
+        - echo "Test skipped - stereo_pprc needs ISISROOT"
 
 about:
     home: https://github.com/NeoGeographyToolkit/StereoPipeline
