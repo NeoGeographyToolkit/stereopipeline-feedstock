@@ -112,7 +112,7 @@ cmake ..                                          \
     -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13           \
     -DCMAKE_MODULE_PATH=$PREFIX/share/pcl-1.15/Modules \
     -DCMAKE_VERBOSE_MAKEFILE=ON                   \
-    -DCMAKE_CXX_FLAGS="-O3 -std=c++11 -Wno-error -I${PREFIX}/include" \
+    -DCMAKE_CXX_FLAGS="-O3 -std=c++17 -Wno-error -I${PREFIX}/include" \
     -DCMAKE_C_FLAGS='-O3 -Wno-error'              \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}
 make -j${CPU_COUNT} install
@@ -152,7 +152,7 @@ cd libnabo
 mkdir -p build && cd build
 cmake                                          \
   -DCMAKE_BUILD_TYPE=Release                   \
-  -DCMAKE_CXX_FLAGS='-O3 -std=c++11'           \
+  -DCMAKE_CXX_FLAGS='-O3 -std=c++17'           \
   -DCMAKE_C_FLAGS='-O3'                        \
   -DCMAKE_INSTALL_PREFIX=${PREFIX}             \
   -DEIGEN_INCLUDE_DIR=${PREFIX}/include/eigen3 \
@@ -201,7 +201,7 @@ git clone https://github.com/NeoGeographyToolkit/FastGlobalRegistration.git
 cd FastGlobalRegistration
 FGR_SOURCE_DIR=$(pwd)/source
 mkdir -p build && cd build
-INC_FLAGS="-I${PREFIX}/include/eigen3 -I${PREFIX}/include -O3 -L${PREFIX}/lib -lflann_cpp -llz4 -O3 -std=c++11"
+INC_FLAGS="-I${PREFIX}/include/eigen3 -I${PREFIX}/include -O3 -L${PREFIX}/lib -lflann_cpp -llz4 -O3 -std=c++17"
 cmake                                        \
   -DCMAKE_BUILD_TYPE=Release                 \
   -DCMAKE_CXX_FLAGS="${INC_FLAGS}"           \
@@ -332,11 +332,23 @@ make -j${CPU_COUNT} install
 cd $SRC_DIR
 mkdir -p build
 cd build
+# On Linux, our ale/usgscsm/isis conda packages reference GLIBC_2.29/2.32
+# symbols (built against system glibc). The conda cross-compiler's sysroot
+# (2.17) can't resolve these at link time. --allow-shlib-undefined makes
+# the linker tolerate this (runtime glibc has the symbols). -lfmt is needed
+# because usgscsm headers include spdlog which uses fmt::v12.
+if [ "$(uname)" = "Linux" ]; then
+    EXTRA_LDFLAGS="-Wl,--allow-shlib-undefined -lfmt -lm"
+else
+    EXTRA_LDFLAGS=""
+fi
 cmake ..                             \
     -DCMAKE_PREFIX_PATH=${PREFIX}    \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DASP_DEPS_DIR=${PREFIX}         \
     -DUSE_ISIS=ON                    \
     -DUSE_OPENEXR=OFF                \
-    -DCMAKE_VERBOSE_MAKEFILE=ON
+    -DCMAKE_VERBOSE_MAKEFILE=ON      \
+    -DCMAKE_EXE_LINKER_FLAGS="${EXTRA_LDFLAGS}" \
+    -DCMAKE_SHARED_LINKER_FLAGS="${EXTRA_LDFLAGS}"
 make -j${CPU_COUNT} install
