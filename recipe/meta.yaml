@@ -15,8 +15,8 @@ source:
   git_rev: 3d1953916
 
 build:
-    number: 5
-    string: asp_5
+    number: 6
+    string: asp_6
 
 requirements:
     build:
@@ -67,7 +67,7 @@ requirements:
         - nlohmann_json =3.11.2
         - parallel
         - pbzip2
-        - pdal >=2.8.4,<3
+        - pdal >=2.10.0,<3
         - rapidjson
         - rocksdb <10  # [linux]
         - rocksdb 10.10.1  # [osx]
@@ -196,7 +196,7 @@ requirements:
         - nlohmann_json =3.11.2
         - parallel
         - pbzip2
-        - pdal >=2.8.4,<3
+        - pdal >=2.10.0,<3
         - rapidjson
         - rocksdb <10  # [linux]
         - rocksdb 10.10.1  # [osx]
