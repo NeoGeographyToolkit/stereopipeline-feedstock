@@ -374,3 +374,17 @@ cmake ..                             \
     -DCMAKE_EXE_LINKER_FLAGS="${ASP_LINK_FLAGS}" \
     -DCMAKE_SHARED_LINKER_FLAGS="${ASP_LINK_FLAGS}"
 make -j${CPU_COUNT} install
+
+# Remove libtbbmalloc_proxy from all ASP/VW binaries and shared libs.
+# tbb-devel drags in libtbbmalloc_proxy.so.2 which replaces glibc's
+# malloc/free with TBB's scalable allocator. At exit time, C++ static
+# destructors in ISIS/USGSCSM/protobuf/abseil free memory allocated by
+# TBB after TBB has shut down, causing SIGSEGV or "free(): invalid size".
+if [ "$(uname)" = "Linux" ]; then
+    echo "Stripping libtbbmalloc_proxy from installed ELF files..."
+    for f in ${PREFIX}/bin/* ${PREFIX}/lib/libAsp*.so ${PREFIX}/lib/libVw*.so; do
+        if [ -f "$f" ] && readelf -d "$f" 2>/dev/null | grep -q libtbbmalloc_proxy; then
+            patchelf --remove-needed libtbbmalloc_proxy.so.2 "$f"
+        fi
+    done
+fi
