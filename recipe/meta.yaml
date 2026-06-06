@@ -15,8 +15,8 @@ source:
   git_rev: 3d1953916
 
 build:
-    number: 3
-    string: asp_3
+    number: 4
+    string: asp_4
 
 requirements:
     build:
@@ -123,7 +123,7 @@ requirements:
         - qt6-main >=6,<7
         - qwt =6.3.0
         - spiceypy >=6,<7
-        - spiceql =1.3.0
+        - spiceql =1.3.0=asp*
         - sqlite >=3.46.0,<4
         - superlu
         - swig
@@ -139,11 +139,13 @@ requirements:
         - xorg-libx11
         - xorg-libxi
         - zlib
-        # Our custom-built packages from nasa-ames-stereo-pipeline channel
-        - ale =1.2.0
-        - usgscsm =2.0.2
-        - spiceql =1.3.0
-        - isis =10.0.0
+        # Our custom-built packages from nasa-ames-stereo-pipeline channel.
+        # Pin build string =asp* so conda never swaps for conda-forge versions
+        # (conda-forge's spiceql has a buggy global ctor that crashes).
+        - ale =1.2.0=asp*
+        - usgscsm =2.0.2=asp*
+        - spiceql =1.3.0=asp*
+        - isis =10.0.0=asp*
         # MultiView breakup: on aarch64 + osx-64 the cgal_tools + MultiView
         # components are prebuilt conda packages (build.sh skips their inline
         # build, detecting prebuilt libtheia in $PREFIX). theia,
@@ -245,7 +247,7 @@ requirements:
         - qt6-main >=6,<7
         - qwt =6.3.0
         - spiceypy >=6,<7
-        - spiceql =1.3.0
+        - spiceql =1.3.0=asp*
         - sqlite >=3.46.0,<4
         - superlu
         - swig
@@ -260,10 +262,11 @@ requirements:
         - xorg-libx11
         - xorg-libxi
         - zlib
-        # Our custom-built packages from nasa-ames-stereo-pipeline channel
-        - ale =1.2.0
-        - usgscsm =2.0.2
-        - isis =10.0.0
+        # Our custom-built packages from nasa-ames-stereo-pipeline channel.
+        # Pin build string =asp* so conda never swaps for conda-forge versions.
+        - ale =1.2.0=asp*
+        - usgscsm =2.0.2=asp*
+        - isis =10.0.0=asp*
         # MultiView breakup (aarch64 + osx-64): prebuilt components, see host section.
         - cgal_tools  # [aarch64 or (osx and x86_64)]
         - theia       # [aarch64 or (osx and x86_64)]
