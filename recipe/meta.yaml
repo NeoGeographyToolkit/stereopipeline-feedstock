@@ -8,12 +8,14 @@ package:
 
 source:
   git_url: https://github.com/NeoGeographyToolkit/StereoPipeline.git
-  # Retagged ASP latest (god/master HEAD, also git tag 3.7.0), 2026-06-05.
-  git_rev: a7568977e
+  # b5aabb6f0 = a7568977e + the linux-aarch64 OpenMP fix (manual gomp setup, like
+  # Mac). The fix is gated to APPLE/aarch64, so it is behavior-identical for
+  # linux-64/osx; all platforms can build from this commit. 2026-06-05.
+  git_rev: b5aabb6f0
 
 build:
-    number: 2
-    string: asp_2
+    number: 3
+    string: asp_3
 
 requirements:
     build:
@@ -139,13 +141,14 @@ requirements:
         - usgscsm =2.0.2
         - spiceql =1.3.0
         - isis =10.0.0
-        # MultiView breakup: on aarch64 the cgal_tools + MultiView components are
-        # prebuilt conda packages (build.sh skips their inline build). theia,
+        # MultiView breakup: on aarch64 + osx-64 the cgal_tools + MultiView
+        # components are prebuilt conda packages (build.sh skips their inline
+        # build, detecting prebuilt libtheia in $PREFIX). theia,
         # voxblox, texrecon (texrecon bundles the mve libs + rayint headers).
-        - cgal_tools  # [aarch64]
-        - theia       # [aarch64]
-        - voxblox     # [aarch64]
-        - texrecon    # [aarch64]
+        - cgal_tools  # [aarch64 or (osx and x86_64)]
+        - theia       # [aarch64 or (osx and x86_64)]
+        - voxblox     # [aarch64 or (osx and x86_64)]
+        - texrecon    # [aarch64 or (osx and x86_64)]
 
     run:
         # Synced with ISIS 10.x environment.yml (2026-03-30).
@@ -256,11 +259,11 @@ requirements:
         - ale =1.2.0
         - usgscsm =2.0.2
         - isis =10.0.0
-        # MultiView breakup (aarch64): prebuilt components, see host section.
-        - cgal_tools  # [aarch64]
-        - theia       # [aarch64]
-        - voxblox     # [aarch64]
-        - texrecon    # [aarch64]
+        # MultiView breakup (aarch64 + osx-64): prebuilt components, see host section.
+        - cgal_tools  # [aarch64 or (osx and x86_64)]
+        - theia       # [aarch64 or (osx and x86_64)]
+        - voxblox     # [aarch64 or (osx and x86_64)]
+        - texrecon    # [aarch64 or (osx and x86_64)]
 
 test:
     commands:
