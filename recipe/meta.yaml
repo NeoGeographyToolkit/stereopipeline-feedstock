@@ -218,7 +218,6 @@ requirements:
         - superlu
         - swig
         - tbb
-        - tbb-devel
         - tnt
         - x264
         - xalan-c >=1.12,<1.13  # [linux]
