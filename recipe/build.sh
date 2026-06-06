@@ -82,6 +82,12 @@ cmake ${CMAKE_ARGS}                                      \
 make -j${CPU_COUNT} install
 fi # end disabled PDAL block
 
+# MultiView breakup: on aarch64, cgal_tools + the MultiView components (theia,
+# mve, texrecon, voxblox) are installed as prebuilt conda packages (declared as
+# deps in meta.yaml), so skip building them inline here. Other platforms still
+# build them inline below (the eventual goal is to migrate all platforms).
+if [ "$(uname -m)" != "aarch64" ]; then
+
 # cgal_tools (mesh utilities: fill_holes, smoothe_mesh, rm_connected_components,
 # simplify_mesh). CGAL comes from conda (meta.yaml, version 6.x).
 # cgal_tools uses find_package(CGAL) from the system (no FetchContent).
@@ -137,6 +143,8 @@ make install V=1 VERBOSE=1 > "$SRC_DIR/mv_install.log" 2>&1 || {
   tail -60 "$SRC_DIR/mv_install.log"
   exit 1
 }
+
+fi  # end "not aarch64" - skip inline cgal_tools + MultiView on aarch64
 
 # geoid (EGM2008 Fortran library + geoid raster data)
 # Requires a Fortran compiler (FC is set by conda's fortran-compiler package).
