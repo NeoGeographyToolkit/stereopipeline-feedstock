@@ -349,6 +349,13 @@ cd $SRC_DIR
 #git clone git@github.com:visionworkbench/visionworkbench.git
 git clone https://github.com/visionworkbench/visionworkbench.git
 cd visionworkbench
+# aarch64: VW's src/vw/CMakeLists.txt only disables SSE for Darwin+arm64, so on
+# Linux aarch64 it adds -msse4.1 (and the disable path adds -mno-sse4.1) - both
+# x86-only and rejected by gcc on aarch64. Strip the SSE flags from the clone.
+# TODO(oalexan1): upstream VW fix = treat aarch64 like arm64 in that block.
+if [ "$(uname -m)" = "aarch64" ]; then
+    perl -i -pe 's/-mno-sse4\.1//g; s/-msse4\.1//g;' src/vw/CMakeLists.txt
+fi
 mkdir -p build
 cd build
 cmake ..                                         \
@@ -367,8 +374,12 @@ mkdir -p build
 cd build
 # -Wl,--allow-shlib-undefined is GNU ld (Linux); macOS ld64 rejects it. Mac
 # links clean without extra flags, so use them on Linux only.
+# -L${PREFIX}/lib is required so -lfmt resolves: these flags also apply to
+# ASP's cmake compiler ABI check (TryCompile), which has no other -L path
+# (the aarch64 conda gcc does not search $PREFIX/lib by default), so without it
+# the build dies at "ld: cannot find -lfmt" before any ASP source is compiled.
 if [ "$(uname)" = "Linux" ]; then
-    ASP_LINK_FLAGS="-Wl,--allow-shlib-undefined -lfmt -lm"
+    ASP_LINK_FLAGS="-Wl,--allow-shlib-undefined -L${PREFIX}/lib -lfmt -lm"
 else
     ASP_LINK_FLAGS=""
 fi
