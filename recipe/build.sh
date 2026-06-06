@@ -414,7 +414,7 @@ make -j${CPU_COUNT} install
 # TBB after TBB has shut down, causing SIGSEGV or "free(): invalid size".
 if [ "$(uname)" = "Linux" ]; then
     echo "Stripping libtbbmalloc_proxy from installed ELF files..."
-    for f in ${PREFIX}/bin/* ${PREFIX}/lib/libAsp*.so ${PREFIX}/lib/libVw*.so; do
+    for f in ${PREFIX}/bin/* ${PREFIX}/libexec/* ${PREFIX}/lib/libAsp*.so ${PREFIX}/lib/libVw*.so; do
         if [ -f "$f" ] && readelf -d "$f" 2>/dev/null | grep -q libtbbmalloc_proxy; then
             patchelf --remove-needed libtbbmalloc_proxy.so.2 "$f"
         fi
