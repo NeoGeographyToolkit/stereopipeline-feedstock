@@ -8,10 +8,11 @@ package:
 
 source:
   git_url: https://github.com/NeoGeographyToolkit/StereoPipeline.git
-  # b5aabb6f0 = a7568977e + the linux-aarch64 OpenMP fix (manual gomp setup, like
-  # Mac). The fix is gated to APPLE/aarch64, so it is behavior-identical for
-  # linux-64/osx; all platforms can build from this commit. 2026-06-05.
-  git_rev: b5aabb6f0
+  # 3d1953916 = a7568977e + two gated linux-aarch64 fixes: OpenMP (manual gomp
+  # setup like Mac) and SSE (disable x86-only -msse4.1 on aarch64 in
+  # src/asp/CMakeLists.txt). Both gated to APPLE/aarch64, so behavior-identical
+  # for linux-64/osx; all platforms build from this commit. 2026-06-05.
+  git_rev: 3d1953916
 
 build:
     number: 3
