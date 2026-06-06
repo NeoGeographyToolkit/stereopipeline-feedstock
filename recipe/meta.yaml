@@ -76,6 +76,8 @@ requirements:
         - armadillo
         - blas
         - libopenblas
+        - libblas * *openblas*    # [osx]
+        - liblapack * *openblas*  # [osx]
         - bullet >=3.25
         - bz2file
         - bzip2
@@ -197,6 +199,8 @@ requirements:
         - armadillo
         - blas
         - libopenblas
+        - libblas * *openblas*    # [osx]
+        - liblapack * *openblas*  # [osx]
         - bullet >=3.25
         - bz2file
         - bzip2
