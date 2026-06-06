@@ -347,37 +347,8 @@ BIN_DIR=${PREFIX}/plugins/stereo/elas/bin
 mkdir -p ${BIN_DIR}
 /bin/cp -fv elas ${BIN_DIR}/elas
 
-# Build VisionWorkbench
-# cmake source dir is the repo root (has CMakeLists.txt), NOT a src/ subdir.
-cd $SRC_DIR
-#git clone git@github.com:visionworkbench/visionworkbench.git
-git clone https://github.com/visionworkbench/visionworkbench.git
-cd visionworkbench
-# osx: VW's find_external_library(OPENBLAS) globs ${PREFIX}/lib/libopenblas.dylib,
-# but some osx conda libopenblas builds (e.g. 0.3.33) ship only the versioned
-# libopenblas.0.dylib with no unversioned symlink -> cmake "list GET given empty
-# list" at Utilities.cmake:50. Create the symlink so the find succeeds (build-
-# time only, in the host $PREFIX; runtime links the versioned lib via rpath).
-if [ "$(uname)" = "Darwin" ] && [ ! -e "${PREFIX}/lib/libopenblas.dylib" ]; then
-    ob=$(cd "${PREFIX}/lib" && ls libopenblas.*.dylib libopenblasp-*.dylib 2>/dev/null | head -1)
-    [ -n "$ob" ] && ln -sf "$ob" "${PREFIX}/lib/libopenblas.dylib"
-fi
-# aarch64: VW's src/vw/CMakeLists.txt only disables SSE for Darwin+arm64, so on
-# Linux aarch64 it adds -msse4.1 (and the disable path adds -mno-sse4.1) - both
-# x86-only and rejected by gcc on aarch64. Strip the SSE flags from the clone.
-# TODO(oalexan1): upstream VW fix = treat aarch64 like arm64 in that block.
-if [ "$(uname -m)" = "aarch64" ]; then
-    perl -i -pe 's/-mno-sse4\.1//g; s/-msse4\.1//g;' src/vw/CMakeLists.txt
-fi
-mkdir -p build
-cd build
-cmake ..                                         \
-    -DCMAKE_PREFIX_PATH=${PREFIX}                \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX}             \
-    -DASP_DEPS_DIR=${PREFIX}                     \
-    -DUSE_OPENEXR=OFF                            \
-    -DCMAKE_VERBOSE_MAKEFILE=ON
-make -j${CPU_COUNT} install
+# VisionWorkbench: use the prebuilt conda package (visionworkbench =3.7.0=asp*
+# in meta.yaml). The inline build is no longer needed.
 
 # Build StereoPipeline with ISIS and without OpenEXR.
 # cmake source dir is the repo root (has CMakeLists.txt), NOT a src/ subdir.
