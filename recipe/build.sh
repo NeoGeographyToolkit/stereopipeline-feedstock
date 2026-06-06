@@ -82,11 +82,15 @@ cmake ${CMAKE_ARGS}                                      \
 make -j${CPU_COUNT} install
 fi # end disabled PDAL block
 
-# MultiView breakup: on aarch64, cgal_tools + the MultiView components (theia,
-# mve, texrecon, voxblox) are installed as prebuilt conda packages (declared as
-# deps in meta.yaml), so skip building them inline here. Other platforms still
-# build them inline below (the eventual goal is to migrate all platforms).
-if [ "$(uname -m)" != "aarch64" ]; then
+# MultiView breakup: cgal_tools + the MultiView components (theia, mve,
+# texrecon, voxblox) are installed as prebuilt conda packages (declared as deps
+# in meta.yaml with per-platform selectors) on platforms that have them. Detect
+# that by the presence of the prebuilt libtheia in $PREFIX (installed as a host
+# dep before this script runs) and skip the inline build there. Platform-
+# agnostic and auto-syncs with the meta.yaml selectors (the eventual goal of
+# migrating all platforms). Today: aarch64 + osx-64 use prebuilt; osx-arm64 +
+# linux-64 still build inline until their packages land.
+if ! ls "${PREFIX}"/lib/libtheia* >/dev/null 2>&1; then
 
 # cgal_tools (mesh utilities: fill_holes, smoothe_mesh, rm_connected_components,
 # simplify_mesh). CGAL comes from conda (meta.yaml, version 6.x).
@@ -144,7 +148,7 @@ make install V=1 VERBOSE=1 > "$SRC_DIR/mv_install.log" 2>&1 || {
   exit 1
 }
 
-fi  # end "not aarch64" - skip inline cgal_tools + MultiView on aarch64
+fi  # end inline cgal_tools + MultiView build (skipped when prebuilt libtheia present)
 
 # geoid (EGM2008 Fortran library + geoid raster data)
 # Requires a Fortran compiler (FC is set by conda's fortran-compiler package).
@@ -349,6 +353,15 @@ cd $SRC_DIR
 #git clone git@github.com:visionworkbench/visionworkbench.git
 git clone https://github.com/visionworkbench/visionworkbench.git
 cd visionworkbench
+# osx: VW's find_external_library(OPENBLAS) globs ${PREFIX}/lib/libopenblas.dylib,
+# but some osx conda libopenblas builds (e.g. 0.3.33) ship only the versioned
+# libopenblas.0.dylib with no unversioned symlink -> cmake "list GET given empty
+# list" at Utilities.cmake:50. Create the symlink so the find succeeds (build-
+# time only, in the host $PREFIX; runtime links the versioned lib via rpath).
+if [ "$(uname)" = "Darwin" ] && [ ! -e "${PREFIX}/lib/libopenblas.dylib" ]; then
+    ob=$(cd "${PREFIX}/lib" && ls libopenblas.*.dylib libopenblasp-*.dylib 2>/dev/null | head -1)
+    [ -n "$ob" ] && ln -sf "$ob" "${PREFIX}/lib/libopenblas.dylib"
+fi
 # aarch64: VW's src/vw/CMakeLists.txt only disables SSE for Darwin+arm64, so on
 # Linux aarch64 it adds -msse4.1 (and the disable path adds -mno-sse4.1) - both
 # x86-only and rejected by gcc on aarch64. Strip the SSE flags from the clone.
