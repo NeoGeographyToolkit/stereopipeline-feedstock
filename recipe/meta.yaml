@@ -77,8 +77,15 @@ requirements:
         - armadillo
         - blas
         - libopenblas
-        - libblas * *openblas*    # [osx or aarch64]
-        - liblapack * *openblas*  # [osx or aarch64]
+        - libblas * *openblas*    # [osx]
+        - liblapack * *openblas*  # [osx]
+        # aarch64: conda-forge's DEFAULT blas here is BLIS (osx/linux-64 default
+        # openblas), so isis/VW were built linking libblis.so.4. Pin blis to keep
+        # it present at install (libopenblas also stays, for VW's openblas-linked
+        # math). Without this, deps pull openblas -> libblis.so.4 missing -> ASP
+        # tools fail to load. See GRIEF LOG #15.
+        - libblas * *blis*        # [aarch64]
+        - liblapack * *blis*      # [aarch64]
         - bullet >=3.25
         - bz2file
         - bzip2
@@ -205,8 +212,15 @@ requirements:
         - armadillo
         - blas
         - libopenblas
-        - libblas * *openblas*    # [osx or aarch64]
-        - liblapack * *openblas*  # [osx or aarch64]
+        - libblas * *openblas*    # [osx]
+        - liblapack * *openblas*  # [osx]
+        # aarch64: conda-forge's DEFAULT blas here is BLIS (osx/linux-64 default
+        # openblas), so isis/VW were built linking libblis.so.4. Pin blis to keep
+        # it present at install (libopenblas also stays, for VW's openblas-linked
+        # math). Without this, deps pull openblas -> libblis.so.4 missing -> ASP
+        # tools fail to load. See GRIEF LOG #15.
+        - libblas * *blis*        # [aarch64]
+        - liblapack * *blis*      # [aarch64]
         - bullet >=3.25
         - bz2file
         - bzip2
