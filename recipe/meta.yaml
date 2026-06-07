@@ -79,12 +79,12 @@ requirements:
         - libopenblas
         - libblas * *openblas*    # [osx]
         - liblapack * *openblas*  # [osx]
-        # aarch64: conda-forge's DEFAULT blas here is BLIS (osx/linux-64 default
-        # openblas), so isis/VW were built linking libblis.so.4. Pin blis to keep
-        # it present at install (libopenblas also stays, for VW's openblas-linked
-        # math). Without this, deps pull openblas -> libblis.so.4 missing -> ASP
-        # tools fail to load. See GRIEF LOG #15.
-        - libblas * *blis*        # [aarch64]
+        # aarch64: conda-forge's DEFAULT blas here is BLIS, but the aarch64 blis
+        # 2.0 build ABORTS at runtime in a virtualized VM (bli_gks.c:257 "MC is
+        # non-multiple of MR"). Force openblas (works, matches osx/linux-64).
+        # See GRIEF LOG #15.
+        - libblas * *openblas*    # [aarch64]
+        - liblapack * *openblas*  # [aarch64]
         - bullet >=3.25
         - bz2file
         - bzip2
@@ -213,12 +213,12 @@ requirements:
         - libopenblas
         - libblas * *openblas*    # [osx]
         - liblapack * *openblas*  # [osx]
-        # aarch64: conda-forge's DEFAULT blas here is BLIS (osx/linux-64 default
-        # openblas), so isis/VW were built linking libblis.so.4. Pin blis to keep
-        # it present at install (libopenblas also stays, for VW's openblas-linked
-        # math). Without this, deps pull openblas -> libblis.so.4 missing -> ASP
-        # tools fail to load. See GRIEF LOG #15.
-        - libblas * *blis*        # [aarch64]
+        # aarch64: conda-forge's DEFAULT blas here is BLIS, but the aarch64 blis
+        # 2.0 build ABORTS at runtime in a virtualized VM (bli_gks.c:257 "MC is
+        # non-multiple of MR"). Force openblas (works, matches osx/linux-64).
+        # See GRIEF LOG #15.
+        - libblas * *openblas*    # [aarch64]
+        - liblapack * *openblas*  # [aarch64]
         - bullet >=3.25
         - bz2file
         - bzip2
