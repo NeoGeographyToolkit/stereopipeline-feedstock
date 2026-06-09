@@ -15,11 +15,12 @@ source:
   git_rev: 3d1953916
 
 build:
-    number: 7
-    string: asp_7
+    number: 8
+    string: asp_8          # glibc floor fix (add stdlib pin)
 
 requirements:
     build:
+        - {{ stdlib('c') }}
     host:
         # It is convenient to keep the tools in the host section so they
         # always exist in the environment.
