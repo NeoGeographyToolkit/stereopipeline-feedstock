@@ -218,7 +218,7 @@ cmake                                          \
 make -j${CPU_COUNT} install
 
 # fgr (FastGlobalRegistration)
-# Has no cmake install target - binaries and headers are copied manually below.
+# Installs the library and app.h via cmake (and re-signs on macOS).
 # Needs -llz4 for FLANN serialization support; without it, linking fails.
 # The source dir is a subdirectory (source/), not the repo root.
 cd $SRC_DIR
@@ -235,14 +235,7 @@ cmake                                        \
   -DCMAKE_VERBOSE_MAKEFILE=ON                \
   -DFastGlobalRegistration_LINK_MODE=SHARED  \
   ${FGR_SOURCE_DIR}
-make -j${CPU_COUNT}
-# Install
-FGR_INC_DIR=${PREFIX}/include/FastGlobalRegistration
-mkdir -p ${FGR_INC_DIR}
-/bin/cp -fv ${FGR_SOURCE_DIR}/FastGlobalRegistration/app.h ${FGR_INC_DIR}
-FGR_LIB_DIR=${PREFIX}/lib
-mkdir -p ${FGR_LIB_DIR}
-/bin/cp -fv FastGlobalRegistration/libFastGlobalRegistrationLib* ${FGR_LIB_DIR}
+make -j${CPU_COUNT} install
 
 # s2p (stereo matching plugins: mgm, msmw, msmw2)
 # Uses plain Makefiles (mgm) and cmake (msmw, msmw2), not a single build system.
