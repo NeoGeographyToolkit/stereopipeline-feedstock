@@ -189,6 +189,7 @@ cd libnabo
 mkdir -p build && cd build
 cmake                                          \
   -DCMAKE_BUILD_TYPE=Release                   \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0           \
   -DCMAKE_CXX_FLAGS='-O3 -std=c++17'           \
   -DCMAKE_C_FLAGS='-O3'                        \
   -DCMAKE_INSTALL_PREFIX=${PREFIX}             \
@@ -212,6 +213,7 @@ cd libpointmatcher
 mkdir -p build && cd build
 cmake                                          \
   -DCMAKE_BUILD_TYPE=Release                   \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0           \
   -DCMAKE_CXX_FLAGS="-O3 -std=c++17"           \
   -DCMAKE_C_FLAGS='-O3'                        \
   -DCMAKE_INSTALL_PREFIX=${PREFIX}             \
@@ -241,6 +243,7 @@ mkdir -p build && cd build
 INC_FLAGS="-I${PREFIX}/include/eigen3 -I${PREFIX}/include -O3 -L${PREFIX}/lib -lflann_cpp -llz4 -O3 -std=c++17"
 cmake                                        \
   -DCMAKE_BUILD_TYPE=Release                 \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0         \
   -DCMAKE_CXX_FLAGS="${INC_FLAGS}"           \
   -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX}      \
   -DCMAKE_PREFIX_PATH=${PREFIX}              \
